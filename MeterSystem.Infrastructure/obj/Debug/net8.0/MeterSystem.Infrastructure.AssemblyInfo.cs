@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MeterSystem.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06b35e203063b9c2f361c082c23686692e0d8164")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+417cee3f1b95c10935313638f06710daa87e7864")]
 [assembly: System.Reflection.AssemblyProductAttribute("MeterSystem.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MeterSystem.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
