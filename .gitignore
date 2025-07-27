@@ -1,6 +1,6 @@
 # ======= Build Folders =======
-bin/
-obj/
+*.bin/
+*.obj/
 
 # ======= Visual Studio Specific =======
 .vs/
