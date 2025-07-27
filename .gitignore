@@ -1,1 +1,29 @@
+# ======= Build Folders =======
+bin/
+obj/
+
+# ======= Visual Studio Specific =======
 .vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+
+
+# ======= Rider / VSCode =======
+.idea/
+.vscode/
+*.code-workspace
+
+# ======= Git =======
+*.orig
+
+# ======= Logs / Dumps =======
+*.log
+*.vspscc
+*.vssscc
+
+# ======= HTTP Test Files =======
+*.http
+
