@@ -28,8 +28,13 @@ namespace MeterSystem.Infrastructure.Configurations
                    .IsRequired();
 
             builder.Property(m => m.InstalledDate).IsRequired();
-            builder.Property(m => m.CreatedAt).IsRequired();
-            builder.Property(m => m.UpdatedAt).IsRequired();
+
+            builder.Property(c => c.CreatedAt)
+                .HasColumnName("created_at")
+                .IsRequired();
+
+            builder.Property(c => c.UpdatedAt)
+                .HasColumnName("last_updated_at");
 
             builder.HasMany(m => m.Recharges)
                    .WithOne(r => r.Meter)
