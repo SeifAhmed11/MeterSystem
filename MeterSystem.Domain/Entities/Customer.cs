@@ -8,7 +8,7 @@
         public string Address { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
-        public ICollection<Consumption> Recharges { get; set; }
+        public ICollection<Recharge> Recharges { get; set; }
         public ICollection<Consumption> Consumptions { get; set; }
         public ICollection<Contract> Contracts { get; set; }
         
