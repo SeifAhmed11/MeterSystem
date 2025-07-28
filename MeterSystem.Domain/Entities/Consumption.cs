@@ -1,13 +1,14 @@
-﻿namespace MeterSystem.Domain.Entities
+﻿using MeterSystem.Domain.Base;
+
+namespace MeterSystem.Domain.Entities
 {
-    public class Consumption
+    public class Consumption : BaseEntity
     {
-        public Guid Id { get; set; }
         public DateTime ReadingDate { get; set; }
         public decimal PreviousReading { get; set; }
         public decimal CurrentReading { get; set; }
         public decimal ConsumptionUnits { get; set; }
         public Guid MeterId { get; set; }
-        public Meter Meter { get; set; }
+        public Meter Meter { get; set; } = default!;
     }
 }

@@ -28,6 +28,13 @@ namespace MeterSystem.Infrastructure.Configurations
                    .HasColumnType("decimal(12,3)")
                    .IsRequired();
 
+            builder.Property(c => c.CreatedAt)
+                .HasColumnName("created_at")
+                .IsRequired();
+
+            builder.Property(c => c.UpdatedAt)
+                .HasColumnName("last_updated_at");
+
             builder.HasOne(c => c.Meter)
                    .WithMany(m => m.Consumptions)
                    .HasForeignKey(c => c.MeterId);

@@ -1,16 +1,15 @@
-﻿namespace MeterSystem.Domain.Entities
+﻿using MeterSystem.Domain.Base;
+
+namespace MeterSystem.Domain.Entities
 {
-    public class Customer
+    public class Customer : BaseEntity
     {
-        public Guid Id { get; set; }
-        public string NationalId { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime LastUpdatedAt { get; set; }
-        public ICollection<Recharge> Recharges { get; set; }
-        public ICollection<Consumption> Consumptions { get; set; }
-        public ICollection<Contract> Contracts { get; set; }
+        public string NationalId { get; set; } = default!;
+        public string Name { get; set; } = default!;
+        public string Address { get; set; } = default!;
+        public ICollection<Recharge> Recharges { get; set; } = default!;
+        public ICollection<Consumption> Consumptions { get; set; }  = default!;
+        public ICollection<Contract> Contracts { get; set; } = default!;
         
         //created by user
 

@@ -1,14 +1,14 @@
-﻿namespace MeterSystem.Domain.Entities
+﻿using MeterSystem.Domain.Base;
+
+namespace MeterSystem.Domain.Entities
 {
-    public class Recharge
+    public class Recharge : BaseEntity
     {
-        public Guid Id { get; set; }
         public decimal Amount { get; set; }
         public DateTime RechargeDate { get; set; }
-        public DateTime CreatedAt { get; set; }
         public Guid MeterId { get; set; }
-        public Meter Meter { get; set; }
+        public Meter Meter { get; set; } = default!;
         public Guid CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public Customer Customer { get; set; } = default!;
     }
 }

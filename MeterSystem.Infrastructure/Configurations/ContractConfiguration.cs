@@ -40,8 +40,8 @@ namespace MeterSystem.Infrastructure.Configurations
                .HasColumnName("created_at")
                .IsRequired();
 
-            builder.Property(c => c.LastUpdatedAt)
-                .HasColumnName("last_updated_at")
+            builder.Property(c => c.UpdatedAt)
+                .HasColumnName("updated_at")
                 .IsRequired();
 
             builder.HasOne(c => c.Customer)
