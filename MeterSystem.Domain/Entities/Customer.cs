@@ -8,6 +8,7 @@
         public string Address { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
-        //created by user
+        public ICollection<Consumption> Recharges { get; set; }
+        public ICollection<Consumption> Consumptions { get; set; }
     }
 }

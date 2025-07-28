@@ -8,6 +8,8 @@
         public DateTime InstalledDate { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        //relation with User
+        public ICollection<Recharge> Recharges { get; set; }
+        public ICollection<Consumption> Consumptions { get; set; }
+        public Contract Contract { get; set; }
     }
 }

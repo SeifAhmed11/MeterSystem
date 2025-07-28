@@ -7,7 +7,7 @@
         public decimal PreviousReading { get; set; }
         public decimal CurrentReading { get; set; }
         public decimal ConsumptionUnits { get; set; }
-        //relation with User
-        //relation with meter
+        public Guid MeterId { get; set; }
+        public Meter Meter { get; set; }
     }
 }
