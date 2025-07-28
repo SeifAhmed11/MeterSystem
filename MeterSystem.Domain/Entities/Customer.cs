@@ -10,5 +10,9 @@
         public DateTime LastUpdatedAt { get; set; }
         public ICollection<Consumption> Recharges { get; set; }
         public ICollection<Consumption> Consumptions { get; set; }
+        public ICollection<Contract> Contracts { get; set; }
+        
+        //created by user
+
     }
 }

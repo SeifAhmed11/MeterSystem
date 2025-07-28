@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MeterSystem.Infrastructure.Configurations
 {
-    public class RechargeConfiguration : IEntityTypeConfiguration<Consumption>
+    public class RechargeConfiguration : IEntityTypeConfiguration<Recharge>
     {
-        public void Configure(EntityTypeBuilder<Consumption> builder)
+        public void Configure(EntityTypeBuilder<Recharge> builder)
         {
             builder.HasKey(r => r.Id);
 
