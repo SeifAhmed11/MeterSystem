@@ -41,7 +41,7 @@ namespace MeterSystem.Infrastructure.Configurations
 
             builder.HasOne(m => m.Contract)
                    .WithOne(c => c.Meter)
-                   .HasForeignKey(c => c.MeterId);
+                   .HasForeignKey<Contract>(c => c.MeterId);
 
 
         }
