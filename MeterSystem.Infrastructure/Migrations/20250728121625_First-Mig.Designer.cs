@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeterSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(MeterSystemDbContext))]
-    [Migration("20250728114005_Add-Main-Entities")]
-    partial class AddMainEntities
+    [Migration("20250728121625_First-Mig")]
+    partial class FirstMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
+                        .HasColumnName("CreatedAt");
 
                     b.Property<decimal>("CurrentReading")
                         .HasColumnType("decimal(12,3)");
@@ -57,7 +57,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("last_updated_at");
+                        .HasColumnName("UpdatedAt");
 
                     b.HasKey("Id");
 
@@ -81,7 +81,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
+                        .HasColumnName("CreatedAt");
 
                     b.Property<string>("CustomerCode")
                         .IsRequired()
@@ -110,7 +110,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("UpdatedAt");
 
                     b.HasKey("Id");
 
@@ -137,7 +137,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
+                        .HasColumnName("CreatedAt");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -153,7 +153,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("UpdatedAt");
 
                     b.HasKey("Id");
 
@@ -173,7 +173,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
+                        .HasColumnName("CreatedAt");
 
                     b.Property<DateTime>("InstalledDate")
                         .HasColumnType("datetime2");
@@ -190,7 +190,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("last_updated_at");
+                        .HasColumnName("UpdatedAt");
 
                     b.HasKey("Id");
 
@@ -210,7 +210,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_at");
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
@@ -223,7 +223,7 @@ namespace MeterSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2")
-                        .HasColumnName("last_updated_at");
+                        .HasColumnName("UpdatedAt");
 
                     b.HasKey("Id");
 

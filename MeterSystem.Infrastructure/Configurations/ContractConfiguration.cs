@@ -37,11 +37,11 @@ namespace MeterSystem.Infrastructure.Configurations
                 .IsRequired();
 
             builder.Property(c => c.CreatedAt)
-               .HasColumnName("created_at")
+               .HasColumnName("CreatedAt")
                .IsRequired();
 
             builder.Property(c => c.UpdatedAt)
-                .HasColumnName("updated_at")
+                .HasColumnName("UpdatedAt")
                 .IsRequired();
 
             builder.HasOne(c => c.Customer)
