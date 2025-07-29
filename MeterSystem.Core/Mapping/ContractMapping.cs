@@ -1,0 +1,50 @@
+﻿using MeterSystem.Core.DTOs.Contract;
+using MeterSystem.Domain.Entities;
+
+namespace MeterSystem.Core.Mapping
+{
+    public static class ContractMapping
+    {
+        public static ContractDto ToDto(this Contract contract)
+        {
+            return new ContractDto
+            {
+                Id = contract.Id,
+                CustomerCode = contract.CustomerCode,
+                InstallationAddress = contract.InstallationAddress,
+                ActivationDate = contract.ActivationDate,
+                FixedFees = contract.FixedFees,
+                IsActive = contract.IsActive,
+                MeterId = contract.MeterId,
+                CustomerId = contract.CustomerId,
+                CreatedAt = contract.CreatedAt,
+                UpdatedAt = contract.UpdatedAt
+            };
+        }
+
+        public static Contract ToEntity(this CreateContractDto dto)
+        {
+            return new Contract
+            {
+                Id = Guid.NewGuid(),
+                CustomerCode = dto.CustomerCode,
+                InstallationAddress = dto.InstallationAddress,
+                ActivationDate = dto.ActivationDate,
+                FixedFees = dto.FixedFees,
+                IsActive = dto.IsActive,
+                MeterId = dto.MeterId,
+                CustomerId = dto.CustomerId,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+        }
+
+        public static void MapToEntity(this UpdateContractDto dto, Contract contract)
+        {
+            contract.InstallationAddress = dto.InstallationAddress;
+            contract.FixedFees = dto.FixedFees;
+            contract.IsActive = dto.IsActive;
+            contract.UpdatedAt = DateTime.UtcNow;
+        }
+    }
+}
