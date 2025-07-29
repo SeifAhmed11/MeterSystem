@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MeterSystem.Core.Responses
+﻿namespace MeterSystem.Core.Responses
 {
-    internal class BaseResponse
+    public class BaseResponse<T>
     {
+        public T? Data { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public bool Success { get; set; }
+
+        public static BaseResponse<T> SuccessResult(T data, string message = "") =>
+        new() { Success = true, Data = data, Message = message };
+
+        public static BaseResponse<T> FailResult(string message) =>
+            new() { Success = false, Message = message };
     }
 }
