@@ -1,6 +1,6 @@
 ﻿using MeterSystem.Core.Responses;
 
-namespace MeterSystem.Core.Services
+namespace MeterSystem.Core.Services.Base
 {
     public abstract class BaseService
     {
