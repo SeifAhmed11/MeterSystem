@@ -44,7 +44,7 @@ namespace MeterSystem.Infrastructure.Repositories
             return await Data.ToListAsync();
         }
 
-        public async Task<T?> GetOneAsync(Expression<Func<T, bool>>? filter , bool isTracking = false, string? props = null)
+        public async Task<T?> GetOneAsync(Expression<Func<T, bool>>? filter, bool isTracking = false, string? props = null)
         {
             if (filter == null)
             {

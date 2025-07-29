@@ -4,9 +4,6 @@ namespace MeterSystem.Core.Services.Base
 {
     public abstract class BaseService
     {
-        protected Guid GenerateId() => Guid.NewGuid();
-        protected DateTime GetCurrentTime() => DateTime.UtcNow;
-
         protected BaseResponse<T> Success<T>(T data, string message = "") =>
             BaseResponse<T>.SuccessResult(data, message);
 
