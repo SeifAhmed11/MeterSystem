@@ -34,7 +34,7 @@ namespace MeterSystem.Core.Mapping
             };
         }
 
-        public static void MapToEntity(this Consumption consumption, CreateConsumptionDto dto)
+        public static void MapToEntity(this Consumption consumption, UpdateConsumptionDto dto)
         {
             consumption.ReadingDate = dto.ReadingDate;
             consumption.PreviousReading = dto.PreviousReading;

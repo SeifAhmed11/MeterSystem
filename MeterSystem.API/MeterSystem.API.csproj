@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MeterSystem.Core\MeterSystem.Core.csproj" />
     <ProjectReference Include="..\MeterSystem.Domain\MeterSystem.Domain.csproj" />
     <ProjectReference Include="..\MeterSystem.Infrastructure\MeterSystem.Infrastructure.csproj" />
   </ItemGroup>

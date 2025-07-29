@@ -8,8 +8,8 @@ builder.Services.AddDbContextPool<MeterSystemDbContext>(options =>
 
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-builder.Services.Register();
-
+builder.Services.RegisterInfrastructure();
+builder.Services.RegisterCore();
 
 
 builder.Services.AddControllers();

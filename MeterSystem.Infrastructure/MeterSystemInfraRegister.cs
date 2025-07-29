@@ -12,7 +12,7 @@ namespace MeterSystem.Infrastructure
 {
     public static class MeterSystemInfraRegister
     {
-        public static void Register(this IServiceCollection services) 
+        public static void RegisterInfrastructure(this IServiceCollection services) 
         { 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
