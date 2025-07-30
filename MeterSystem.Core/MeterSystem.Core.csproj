@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MeterSystem.Common\MeterSystem.Common.csproj" />
     <ProjectReference Include="..\MeterSystem.Domain\MeterSystem.Domain.csproj" />
+    <ProjectReference Include="..\MeterSystem.Infrastructure\MeterSystem.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
