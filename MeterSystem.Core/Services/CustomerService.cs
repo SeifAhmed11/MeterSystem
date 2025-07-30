@@ -39,7 +39,7 @@ namespace MeterSystem.Core.Services
                     return BaseResponse<CustomerDto>.FailResult(StaticMessages.Required); 
                 }
 
-                 var existingCustomer = await _unitOfWork.Customers.GetOneAsync(c => c.NationalId == dto.NationalId);
+                 var existingCustomer = await _unitOfWork.Repository<Customer>().GetOneAsync(c => c.NationalId == dto.NationalId);
                 if (existingCustomer != null)
                 {
                     return BaseResponse<CustomerDto>.FailResult(StaticMessages.AlreadyExists);
@@ -47,7 +47,7 @@ namespace MeterSystem.Core.Services
 
                 var customer = dto.ToEntity();
 
-                await _unitOfWork.Customers.AddAsync(customer);
+                await _unitOfWork.Repository<Customer>().AddAsync(customer);
 
                 await _unitOfWork.SaveChangesAsync();
 
@@ -73,14 +73,14 @@ namespace MeterSystem.Core.Services
                     return BaseResponse<bool>.FailResult(StaticMessages.Invalid);
                 }
 
-                var customer = await _unitOfWork.Customers.GetOneAsync(c => c.Id == id);
+                var customer = await _unitOfWork.Repository<Customer>().GetOneAsync(c => c.Id == id);
 
                 if (customer == null)
                 {
                     return BaseResponse<bool>.FailResult(StaticMessages.NotFound);
                 }
 
-                await _unitOfWork.Customers.DeleteAsync(customer);
+                await _unitOfWork.Repository<Customer>().DeleteAsync(customer);
                 await _unitOfWork.SaveChangesAsync();
 
                 return BaseResponse<bool>.SuccessResult(true, StaticMessages.Deleted);
@@ -96,7 +96,7 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var customers = await _unitOfWork.Customers.GetAllAsync(filter: filter, isTracking: isTracking, props: props);
+                var customers = await _unitOfWork.Repository<Customer>().GetAllAsync(filter: filter, isTracking: isTracking, props: props);
 
                 if (customers == null || !customers.Any())
                 {
@@ -125,7 +125,7 @@ namespace MeterSystem.Core.Services
                     return BaseResponse<CustomerDto>.FailResult(StaticMessages.Required);
                 }
 
-                var customer = await _unitOfWork.Customers.GetOneAsync(
+                var customer = await _unitOfWork.Repository<Customer>().GetOneAsync(
                     filter: filter,
                     isTracking: isTracking,
                     props: props
@@ -161,7 +161,7 @@ namespace MeterSystem.Core.Services
                     return BaseResponse<CustomerDto>.FailResult(StaticMessages.Required);
                 }
 
-                var existingCustomer = await _unitOfWork.Customers.GetOneAsync(
+                var existingCustomer = await _unitOfWork.Repository<Customer>().GetOneAsync(
                     filter: c => c.Id == dto.Id,
                     isTracking: true
                 );
@@ -183,7 +183,7 @@ namespace MeterSystem.Core.Services
 
                 dto.MapToEntity(existingCustomer);
 
-                await _unitOfWork.Customers.UpdateAsync(existingCustomer);
+                await _unitOfWork.Repository<Customer>().UpdateAsync(existingCustomer);
 
                 await _unitOfWork.SaveChangesAsync();
 

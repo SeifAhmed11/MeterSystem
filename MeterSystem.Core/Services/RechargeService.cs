@@ -23,13 +23,13 @@ namespace MeterSystem.Application.Services
             try
             {
                 if (dto == null)
-                    return BaseResponse<RechargeDto>.FailResult(Messages.Required);
+                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.Required);
 
                 var entity = dto.ToEntity();
-                await _unitOfWork.Recharges.AddAsync(entity);
+                await _unitOfWork.Repository<Recharge>().AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return BaseResponse<RechargeDto>.SuccessResult(entity.ToDto(), Messages.Created);
+                return BaseResponse<RechargeDto>.SuccessResult(entity.ToDto(), StaticMessages.Created);
             }
             catch (Exception ex)
             {
@@ -41,14 +41,14 @@ namespace MeterSystem.Application.Services
         {
             try
             {
-                var entity = await _unitOfWork.Recharges.GetOneAsync(r => r.Id == id);
+                var entity = await _unitOfWork.Repository<Recharge>().GetOneAsync(r => r.Id == id);
                 if (entity == null)
-                    return BaseResponse<bool>.FailResult(Messages.NotFound);
+                    return BaseResponse<bool>.FailResult(StaticMessages.NotFound);
 
-                await _unitOfWork.Recharges.DeleteAsync(entity);
+                await _unitOfWork.Repository<Recharge>().DeleteAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return BaseResponse<bool>.SuccessResult(true, Messages.Deleted);
+                return BaseResponse<bool>.SuccessResult(true, StaticMessages.Deleted);
             }
             catch (Exception ex)
             {
@@ -60,9 +60,9 @@ namespace MeterSystem.Application.Services
         {
             try
             {
-                var entities = await _unitOfWork.Recharges.GetAllAsync(filter, isTracking, props);
+                var entities = await _unitOfWork.Repository<Recharge>().GetAllAsync(filter, isTracking, props);
                 var dtos = entities.Select(r => r.ToDto()).ToList();
-                return BaseResponse<List<RechargeDto>>.SuccessResult(dtos, Messages.Loaded);
+                return BaseResponse<List<RechargeDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
             catch (Exception ex)
             {
@@ -74,10 +74,10 @@ namespace MeterSystem.Application.Services
         {
             try
             {
-                var entity = await _unitOfWork.Recharges.GetOneAsync(filter, isTracking, props);
+                var entity = await _unitOfWork.Repository<Recharge>().GetOneAsync(filter, isTracking, props);
                 return entity == null
-                    ? BaseResponse<RechargeDto>.FailResult(Messages.NotFound)
-                    : BaseResponse<RechargeDto>.SuccessResult(entity.ToDto(), Messages.Loaded);
+                    ? BaseResponse<RechargeDto>.FailResult(StaticMessages.NotFound)
+                    : BaseResponse<RechargeDto>.SuccessResult(entity.ToDto(), StaticMessages.Loaded);
             }
             catch (Exception ex)
             {
@@ -90,17 +90,17 @@ namespace MeterSystem.Application.Services
             try
             {
                 if (dto == null)
-                    return BaseResponse<RechargeDto>.FailResult(Messages.Required);
+                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.Required);
 
-                var entity = await _unitOfWork.Recharges.GetOneAsync(r => r.Id == dto.Id);
+                var entity = await _unitOfWork.Repository<Recharge>().GetOneAsync(r => r.Id == dto.Id);
                 if (entity == null)
-                    return BaseResponse<RechargeDto>.FailResult(Messages.NotFound);
+                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.NotFound);
 
                 dto.MapToEntity(entity);
-                await _unitOfWork.Recharges.UpdateAsync(entity);
+                await _unitOfWork.Repository<Recharge>().UpdateAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return BaseResponse<RechargeDto>.SuccessResult(entity.ToDto(), Messages.Updated);
+                return BaseResponse<RechargeDto>.SuccessResult(entity.ToDto(), StaticMessages.Updated);
             }
             catch (Exception ex)
             {

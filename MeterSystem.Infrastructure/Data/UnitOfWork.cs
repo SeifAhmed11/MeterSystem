@@ -1,33 +1,30 @@
-﻿using MeterSystem.Domain.Entities;
+﻿using System.Linq;
 using MeterSystem.Common.Interfaces;
+using MeterSystem.Domain.Entities;
 using MeterSystem.Infrastructure.Repositories;
 
 namespace MeterSystem.Infrastructure.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private MeterSystemDbContext _context;
-
-        public IGenericRepository<Meter> Meters { get; }
-
-        public IGenericRepository<Recharge> Recharges { get; }
-
-        public IGenericRepository<Consumption> Consumptions { get; }
-
-        public IGenericRepository<Customer> Customers { get; }
-
-        public IGenericRepository<Contract> Contracts { get; }
-
-        public UnitOfWork(MeterSystemDbContext context)
+        private readonly MeterSystemDbContext dbContext;
+        private readonly Dictionary<Type, object> repositories = new();
+        public UnitOfWork(MeterSystemDbContext dbContext)
         {
-            _context = context;
-            Meters = new GenericRepository<Meter>(_context);
-            Recharges = new GenericRepository<Recharge>(_context);
-            Consumptions = new GenericRepository<Consumption>(_context);
-            Customers = new GenericRepository<Customer>(_context);
-            Contracts = new GenericRepository<Contract>(_context);
+            this.dbContext = dbContext;
         }
 
-        public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
+        public IGenericRepository<T> Repository<T>() where T : class
+        {
+            var type = typeof(T);
+            if (!repositories.ContainsKey(type))
+            {
+                var repoInstance = new GenericRepository<T>(dbContext);
+                repositories[type] = repoInstance;
+            }
+            return (IGenericRepository<T>)repositories[type];
+        }
+
+        public async Task<int> SaveChangesAsync() => await dbContext.SaveChangesAsync();
     }
 }

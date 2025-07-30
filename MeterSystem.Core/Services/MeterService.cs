@@ -23,13 +23,13 @@ namespace MeterSystem.Core.Services
             try
             {
                 if (dto == null)
-                    return BaseResponse<MeterDto>.FailResult(Messages.Required);
+                    return BaseResponse<MeterDto>.FailResult(StaticMessages.Required);
 
                 var entity = dto.ToEntity();
-                await _unitOfWork.Meters.AddAsync(entity);
+                await _unitOfWork.Repository<Meter>().AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return BaseResponse<MeterDto>.SuccessResult(entity.ToDto(), Messages.Created);
+                return BaseResponse<MeterDto>.SuccessResult(entity.ToDto(), StaticMessages.Created);
             }
             catch (Exception ex)
             {
@@ -41,13 +41,13 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var entity = await _unitOfWork.Meters.GetOneAsync(x => x.Id == id);
+                var entity = await _unitOfWork.Repository<Meter>().GetOneAsync(x => x.Id == id);
                 if (entity == null)
-                    return BaseResponse<bool>.FailResult(Messages.NotFound);
+                    return BaseResponse<bool>.FailResult(StaticMessages.NotFound);
 
-                await _unitOfWork.Meters.DeleteAsync(entity);
+                await _unitOfWork.Repository<Meter>().DeleteAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
-                return BaseResponse<bool>.SuccessResult(true, Messages.Deleted);
+                return BaseResponse<bool>.SuccessResult(true, StaticMessages.Deleted);
             }
             catch (Exception ex)
             {
@@ -59,9 +59,9 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var meters = await _unitOfWork.Meters.GetAllAsync(filter, isTracking, props);
+                var meters = await _unitOfWork.Repository<Meter>().GetAllAsync(filter, isTracking, props);
                 var dtos = meters.Select(x => x.ToDto()).ToList();
-                return BaseResponse<List<MeterDto>>.SuccessResult(dtos, Messages.Loaded);
+                return BaseResponse<List<MeterDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
             catch (Exception ex)
             {
@@ -73,10 +73,10 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var entity = await _unitOfWork.Meters.GetOneAsync(filter, isTracking, props);
+                var entity = await _unitOfWork.Repository<Meter>().GetOneAsync(filter, isTracking, props);
                 return entity == null
-                    ? BaseResponse<MeterDto>.FailResult(Messages.NotFound)
-                    : BaseResponse<MeterDto>.SuccessResult(entity.ToDto(), Messages.Loaded);
+                    ? BaseResponse<MeterDto>.FailResult(StaticMessages.NotFound)
+                    : BaseResponse<MeterDto>.SuccessResult(entity.ToDto(), StaticMessages.Loaded);
             }
             catch (Exception ex)
             {
@@ -89,17 +89,17 @@ namespace MeterSystem.Core.Services
             try
             {
                 if (dto == null)
-                    return BaseResponse<MeterDto>.FailResult(Messages.Required);
+                    return BaseResponse<MeterDto>.FailResult(StaticMessages.Required);
 
-                var entity = await _unitOfWork.Meters.GetOneAsync(x => x.Id == dto.Id);
+                var entity = await _unitOfWork.Repository<Meter>().GetOneAsync(x => x.Id == dto.Id);
                 if (entity == null)
-                    return BaseResponse<MeterDto>.FailResult(Messages.NotFound);
+                    return BaseResponse<MeterDto>.FailResult(StaticMessages.NotFound);
 
                 dto.MapToEntity(entity);
-                await _unitOfWork.Meters.UpdateAsync(entity);
+                await _unitOfWork.Repository<Meter>().UpdateAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return BaseResponse<MeterDto>.SuccessResult(entity.ToDto(), Messages.Updated);
+                return BaseResponse<MeterDto>.SuccessResult(entity.ToDto(), StaticMessages.Updated);
             }
             catch (Exception ex)
             {
