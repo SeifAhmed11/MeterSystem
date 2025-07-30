@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MeterSystem.Common\MeterSystem.Common.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36109.1 d17.14
+VisualStudioVersion = 17.14.36109.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterSystem.API", "MeterSystem.API\MeterSystem.API.csproj", "{C2460952-52E4-449C-B306-37B8479271F2}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterSystem.Infrastructure", "MeterSystem.Infrastructure\MeterSystem.Infrastructure.csproj", "{6EB5D350-D2B7-4248-9260-A49E84769701}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterSystem.Core", "MeterSystem.Core\MeterSystem.Core.csproj", "{08974513-DF08-48B6-BB55-C594F0E1DBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterSystem.Common", "MeterSystem.Common\MeterSystem.Common.csproj", "{75A9B0C4-B7B5-4100-969A-7C9535C3E1BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{08974513-DF08-48B6-BB55-C594F0E1DBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08974513-DF08-48B6-BB55-C594F0E1DBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08974513-DF08-48B6-BB55-C594F0E1DBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75A9B0C4-B7B5-4100-969A-7C9535C3E1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75A9B0C4-B7B5-4100-969A-7C9535C3E1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75A9B0C4-B7B5-4100-969A-7C9535C3E1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75A9B0C4-B7B5-4100-969A-7C9535C3E1BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
