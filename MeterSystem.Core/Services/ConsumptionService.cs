@@ -23,16 +23,16 @@ namespace MeterSystem.Core.Services
             try
             {
                 if (dto is null)
-                    return BaseResponse<ConsumptionDto>.FailResult(Messages.Required);
+                    return BaseResponse<ConsumptionDto>.FailResult(StaticMessages.Required);
 
                 if (dto.CurrentReading < dto.PreviousReading)
-                    return BaseResponse<ConsumptionDto>.FailResult(Messages.Invalid);
+                    return BaseResponse<ConsumptionDto>.FailResult(StaticMessages.Invalid);
 
                 var entity = dto.ToEntity();
                 await _unitOfWork.Consumptions.AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return BaseResponse<ConsumptionDto>.SuccessResult(entity.ToDto(), Messages.Created);
+                return BaseResponse<ConsumptionDto>.SuccessResult(entity.ToDto(), StaticMessages.Created);
             }
             catch (Exception ex)
             {
@@ -46,12 +46,12 @@ namespace MeterSystem.Core.Services
             {
                 var entity = await _unitOfWork.Consumptions.GetOneAsync(x => x.Id == id);
                 if (entity is null)
-                    return BaseResponse<bool>.FailResult(Messages.NotFound);
+                    return BaseResponse<bool>.FailResult(StaticMessages.NotFound);
 
                 await _unitOfWork.Consumptions.DeleteAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return BaseResponse<bool>.SuccessResult(true, Messages.Deleted);
+                return BaseResponse<bool>.SuccessResult(true, StaticMessages.Deleted);
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace MeterSystem.Core.Services
             {
                 var entities = await _unitOfWork.Consumptions.GetAllAsync(filter, isTracking, props);
                 var dtos = entities.Select(e => e.ToDto()).ToList();
-                return BaseResponse<List<ConsumptionDto>>.SuccessResult(dtos, Messages.Loaded);
+                return BaseResponse<List<ConsumptionDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
             catch (Exception ex)
             {
@@ -79,9 +79,9 @@ namespace MeterSystem.Core.Services
             {
                 var entity = await _unitOfWork.Consumptions.GetOneAsync(filter, isTracking, props);
                 if (entity is null)
-                    return BaseResponse<ConsumptionDto>.FailResult(Messages.NotFound);
+                    return BaseResponse<ConsumptionDto>.FailResult(StaticMessages.NotFound);
 
-                return BaseResponse<ConsumptionDto>.SuccessResult(entity.ToDto(), Messages.Loaded);
+                return BaseResponse<ConsumptionDto>.SuccessResult(entity.ToDto(), StaticMessages.Loaded);
             }
             catch (Exception ex)
             {
@@ -94,17 +94,17 @@ namespace MeterSystem.Core.Services
             try
             {
                 if (dto is null)
-                    return BaseResponse<ConsumptionDto>.FailResult(Messages.Required);
+                    return BaseResponse<ConsumptionDto>.FailResult(StaticMessages.Required);
 
                 var entity = await _unitOfWork.Consumptions.GetOneAsync(x => x.Id == dto.Id);
                 if (entity is null)
-                    return BaseResponse<ConsumptionDto>.FailResult(Messages.NotFound);
+                    return BaseResponse<ConsumptionDto>.FailResult(StaticMessages.NotFound);
 
                 entity.MapToEntity(dto);
                 await _unitOfWork.Consumptions.UpdateAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return BaseResponse<ConsumptionDto>.SuccessResult(entity.ToDto(), Messages.Updated);
+                return BaseResponse<ConsumptionDto>.SuccessResult(entity.ToDto(), StaticMessages.Updated);
             }
             catch (Exception ex)
             {
