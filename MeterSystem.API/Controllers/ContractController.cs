@@ -24,6 +24,23 @@ namespace MeterSystem.API.Controllers
             return Ok(response);
 
         }
-        
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllContract()
+        {
+            var response = await _contractService.GetAllAsync();
+            if(!response.Success)
+                return BadRequest(response.Message);
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdContract(Guid id)
+        {
+            var response = await _contractService.GetByOneAsync(x => x.Id == id);
+            if (!response.Success)
+                return BadRequest(response.Message);
+            return Ok(response);
+        }
     }
 }

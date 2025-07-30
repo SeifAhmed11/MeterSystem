@@ -1,4 +1,7 @@
-﻿namespace MeterSystem.Common.DTOs.Contract
+﻿using MeterSystem.Common.DTOs.Customer;
+using MeterSystem.Common.DTOs.Meter;
+
+namespace MeterSystem.Common.DTOs.Contract
 {
     public class ContractDto
     {
@@ -12,5 +15,7 @@
         public Guid CustomerId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public MeterDto? Meter { get; set; }
+        public CustomerDto? Customer { get; set; }
     }
 }

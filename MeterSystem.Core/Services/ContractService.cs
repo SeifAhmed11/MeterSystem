@@ -65,7 +65,7 @@ namespace MeterSystem.Core.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<ContractDto>.FailResult({ex.Message});
+                return BaseResponse<ContractDto>.FailResult(ex.Message);
             }
         }
 
@@ -88,11 +88,11 @@ namespace MeterSystem.Core.Services
             }
         }
 
-        public async Task<BaseResponse<List<ContractDto>>> GetAllAsync(Expression<Func<Contract, bool>>? filter = null, bool isTracking = false, string? props = null)
+        public async Task<BaseResponse<List<ContractDto>>> GetAllAsync(Expression<Func<Contract, bool>>? filter = null)
         {
             try
             {
-                var entities = await _unitOfWork.Repository<Contract>().GetAllAsync(filter, isTracking, props);
+                var entities = await _unitOfWork.Repository<Contract>().GetAllAsync(filter, isTracking:true, props: "Meter,Customer");
                 var dtos = entities.Select(x => x.ToDto()).ToList();
                 return BaseResponse<List<ContractDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
@@ -102,11 +102,11 @@ namespace MeterSystem.Core.Services
             }
         }
 
-        public async Task<BaseResponse<ContractDto>> GetByOneAsync(Expression<Func<Contract, bool>> filter, bool isTracking = false, string? props = null)
+        public async Task<BaseResponse<ContractDto>> GetByOneAsync(Expression<Func<Contract, bool>> filter)
         {
             try
             {
-                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(filter, isTracking, props);
+                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(filter);
                 return entity == null
                     ? BaseResponse<ContractDto>.FailResult(StaticMessages.NotFound)
                     : BaseResponse<ContractDto>.SuccessResult(entity.ToDto(), StaticMessages.Loaded);

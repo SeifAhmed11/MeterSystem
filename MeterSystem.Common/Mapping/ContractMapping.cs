@@ -19,7 +19,8 @@ namespace MeterSystem.Core.Mapping
                 MeterId = contract.MeterId,
                 CustomerId = contract.CustomerId,
                 CreatedAt = contract.CreatedAt,
-                UpdatedAt = contract.UpdatedAt
+                Meter = contract.Meter?.ToDto(),
+                Customer = contract.Customer?.ToDto()
             };
         }
 
@@ -33,7 +34,6 @@ namespace MeterSystem.Core.Mapping
                 FixedFees = dto.FixedFees,
                 IsActive = dto.IsActive,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
             };
         }
 

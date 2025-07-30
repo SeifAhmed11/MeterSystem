@@ -28,12 +28,12 @@ namespace MeterSystem.Infrastructure.Repositories
 
         public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter, bool isTracking = false, string? props = null)
         {
-            if (filter == null) 
+            IQueryable<T> Data = _dbSet;
+            if (filter is not null) 
             {
-                return await _dbSet.ToListAsync();
+                Data = Data.Where(filter);
             }
-            var Data = _dbSet.Where(filter);
-            if (!isTracking)
+            if (isTracking)
                 Data = Data.AsNoTracking();
             if (props is not null)
             {
@@ -45,14 +45,10 @@ namespace MeterSystem.Infrastructure.Repositories
             return await Data.ToListAsync();
         }
 
-        public async Task<T?> GetOneAsync(Expression<Func<T, bool>>? filter, bool isTracking = false, string? props = null)
+        public async Task<T?> GetOneAsync(Expression<Func<T, bool>> filter, bool isTracking = false, string? props = null)
         {
-            if (filter == null)
-            {
-                return null;
-            }
             var Data = _dbSet.Where(filter);
-            if (!isTracking)
+            if (isTracking)
                 Data = Data.AsNoTracking();
             if(props is not null)
             {

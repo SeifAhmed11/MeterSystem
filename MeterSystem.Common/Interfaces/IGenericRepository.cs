@@ -4,7 +4,7 @@ namespace MeterSystem.Common.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<T?> GetOneAsync(Expression<Func<T,bool>>? filter = null, bool isTracking = false , string? props = null);
+        Task<T?> GetOneAsync(Expression<Func<T,bool>> filter, bool isTracking = false , string? props = null);
         Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, bool isTracking = false, string? props = null);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
