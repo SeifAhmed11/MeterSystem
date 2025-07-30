@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MeterSystem.Domain.Entities;
+﻿using MeterSystem.Domain.Entities;
 
 namespace MeterSystem.Domain.Interfaces
 {
