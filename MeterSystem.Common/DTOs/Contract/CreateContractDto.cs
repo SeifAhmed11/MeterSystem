@@ -1,4 +1,7 @@
-﻿namespace MeterSystem.Common.DTOs.Contract
+﻿using MeterSystem.Common.DTOs.Customer;
+using MeterSystem.Common.DTOs.Meter;
+
+namespace MeterSystem.Common.DTOs.Contract
 {
     public class CreateContractDto
     {
@@ -7,7 +10,8 @@
         public DateTime ActivationDate { get; set; }
         public decimal FixedFees { get; set; }
         public bool IsActive { get; set; }
-        public Guid MeterId { get; set; }
-        public Guid CustomerId { get; set; }
+        public CreateMeterDto MeterDTO { get; set; }
+        public CreateCustomerDto CustomerDTO { get; set; } 
     }
+
 }

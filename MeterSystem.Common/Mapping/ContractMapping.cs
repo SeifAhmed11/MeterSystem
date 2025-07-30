@@ -1,4 +1,5 @@
 ﻿using MeterSystem.Common.DTOs.Contract;
+using MeterSystem.Common.DTOs.Meter;
 using MeterSystem.Domain.Entities;
 
 namespace MeterSystem.Core.Mapping
@@ -32,10 +33,8 @@ namespace MeterSystem.Core.Mapping
                 ActivationDate = dto.ActivationDate,
                 FixedFees = dto.FixedFees,
                 IsActive = dto.IsActive,
-                MeterId = dto.MeterId,
-                CustomerId = dto.CustomerId,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                UpdatedAt = DateTime.UtcNow,
             };
         }
 

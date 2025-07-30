@@ -25,11 +25,44 @@ namespace MeterSystem.Core.Services
                 if (dto == null)
                     return BaseResponse<ContractDto>.FailResult(StaticMessages.Required);
 
-                var entity = dto.ToEntity();
-                await _unitOfWork.Repository<Contract>().AddAsync(entity);
+                var contractEntity = dto.ToEntity();
+
+                var MeterEntity = dto.MeterDTO.ToEntity();
+
+                var exsitsMeter = await _unitOfWork.Repository<Meter>().GetOneAsync(filter: m => m.Serial == MeterEntity.Serial);
+
+                if (exsitsMeter is not null)
+                {
+                    return BaseResponse<ContractDto>.FailResult(StaticMessages.AlreadyExists);
+                }
+
+                await _unitOfWork.Repository<Meter>().AddAsync(MeterEntity);
+
+                var meterId = MeterEntity.Id;
+
+                var CustomerEntity = dto.CustomerDTO.ToEntity();
+
+                var exsitsCustomer = await _unitOfWork.Repository<Customer>().GetOneAsync(filter: m => m.NationalId == CustomerEntity.NationalId);
+
+                Guid customerId;
+
+                if (exsitsCustomer is not null)
+                {
+                    customerId = exsitsCustomer.Id;
+                }
+                else
+                {
+                    await _unitOfWork.Repository<Customer>().AddAsync(CustomerEntity);
+                    customerId = contractEntity.Id;
+                }
+
+                contractEntity.CustomerId = customerId;
+                contractEntity.MeterId = meterId;
+
+                await _unitOfWork.Repository<Contract>().AddAsync(contractEntity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return BaseResponse<ContractDto>.SuccessResult(entity.ToDto(), StaticMessages.Created);
+                return BaseResponse<ContractDto>.SuccessResult(contractEntity.ToDto(), StaticMessages.Created);
             }
             catch (Exception ex)
             {
