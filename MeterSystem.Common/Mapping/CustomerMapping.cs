@@ -23,7 +23,6 @@ namespace MeterSystem.Core.Mapping
         {
             return new Customer
             {
-                Id = Guid.NewGuid(),
                 NationalId = dto.NationalId,
                 Name = dto.Name,
                 Address = dto.Address,

@@ -27,7 +27,6 @@ namespace MeterSystem.Core.Mapping
         {
             return new Contract
             {
-                Id = Guid.NewGuid(),
                 CustomerCode = dto.CustomerCode,
                 InstallationAddress = dto.InstallationAddress,
                 ActivationDate = dto.ActivationDate,

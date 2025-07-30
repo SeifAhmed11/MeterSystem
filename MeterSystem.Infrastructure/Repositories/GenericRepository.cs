@@ -14,9 +14,10 @@ namespace MeterSystem.Infrastructure.Repositories
             _context = context;
             _dbSet = context.Set<T>();
         }
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+            return entity;
         }
 
         public Task DeleteAsync(T entity)

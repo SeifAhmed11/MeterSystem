@@ -6,7 +6,7 @@ namespace MeterSystem.Common.Interfaces
     {
         Task<T?> GetOneAsync(Expression<Func<T,bool>>? filter = null, bool isTracking = false , string? props = null);
         Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, bool isTracking = false, string? props = null);
-        Task AddAsync(T entity);
+        Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
     }

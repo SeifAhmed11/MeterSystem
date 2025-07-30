@@ -24,7 +24,6 @@ namespace MeterSystem.Core.Mapping
         {
             return new Meter
             {
-                Id = Guid.NewGuid(),
                 Serial = dto.Serial,
                 Type = dto.Type,
                 InstalledDate = dto.InstalledDate,

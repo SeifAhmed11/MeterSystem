@@ -36,28 +36,27 @@ namespace MeterSystem.Core.Services
                     return BaseResponse<ContractDto>.FailResult(StaticMessages.AlreadyExists);
                 }
 
-                await _unitOfWork.Repository<Meter>().AddAsync(MeterEntity);
-
-                var meterId = MeterEntity.Id;
+                var meter = await _unitOfWork.Repository<Meter>().AddAsync(MeterEntity);
 
                 var CustomerEntity = dto.CustomerDTO.ToEntity();
 
                 var exsitsCustomer = await _unitOfWork.Repository<Customer>().GetOneAsync(filter: m => m.NationalId == CustomerEntity.NationalId);
 
-                Guid customerId;
+                var CustomerId = Guid.Empty;
 
                 if (exsitsCustomer is not null)
                 {
-                    customerId = exsitsCustomer.Id;
+                    CustomerId = exsitsCustomer.Id;
+                    contractEntity.CustomerId = CustomerId;
                 }
                 else
                 {
-                    await _unitOfWork.Repository<Customer>().AddAsync(CustomerEntity);
-                    customerId = contractEntity.Id;
+                    var Customer = await _unitOfWork.Repository<Customer>().AddAsync(CustomerEntity);
+                    contractEntity.Customer = Customer;
                 }
 
-                contractEntity.CustomerId = customerId;
-                contractEntity.MeterId = meterId;
+                
+                contractEntity.Meter = meter;
 
                 await _unitOfWork.Repository<Contract>().AddAsync(contractEntity);
                 await _unitOfWork.SaveChangesAsync();
@@ -66,7 +65,7 @@ namespace MeterSystem.Core.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<ContractDto>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<ContractDto>.FailResult({ex.Message});
             }
         }
 

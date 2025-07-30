@@ -10,9 +10,7 @@ namespace MeterSystem.Core
     {
         public static void RegisterCore(this IServiceCollection services)
         {
-            //services.AddScoped<IMeterService, MeterService>();
-            //services.AddScoped<IRechargeService, RechargeService>();
-            //services.AddScoped<IConsumptionService, ConsumptionService>();
+            services.AddScoped<IContractService, ContractService>();
         }
     }
 }
