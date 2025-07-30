@@ -1,6 +1,6 @@
 ﻿namespace MeterSystem.Common.Constants
 {
-    public static class Messages
+    public static class StaticMessages
     {
         // SuccessMessages
         public static string Created = "created successfully";
