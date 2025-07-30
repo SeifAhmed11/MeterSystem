@@ -1,4 +1,4 @@
-﻿namespace MeterSystem.Core.Responses
+﻿namespace MeterSystem.Common.Responses
 {
     public class BaseResponse<T>
     {

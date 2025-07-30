@@ -1,4 +1,4 @@
-﻿using MeterSystem.Core.DTOs.Recharge;
+﻿using MeterSystem.Common.DTOs.Recharge;
 using MeterSystem.Domain.Entities;
 
 namespace MeterSystem.Core.Mapping

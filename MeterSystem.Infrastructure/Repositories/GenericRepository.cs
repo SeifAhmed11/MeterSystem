@@ -1,4 +1,4 @@
-﻿using MeterSystem.Domain.Interfaces;
+﻿using MeterSystem.Common.Interfaces;
 using MeterSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

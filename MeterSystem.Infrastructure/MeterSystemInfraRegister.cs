@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MeterSystem.Domain.Interfaces;
+﻿using MeterSystem.Common.Interfaces;
 using MeterSystem.Infrastructure.Data;
 using MeterSystem.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;

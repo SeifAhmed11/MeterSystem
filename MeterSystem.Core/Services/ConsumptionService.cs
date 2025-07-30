@@ -1,13 +1,15 @@
-﻿using MeterSystem.Core.DTOs.Consumption;
+﻿using System.Linq.Expressions;
+using MeterSystem.Common.Constants;
+using MeterSystem.Common.DTOs.Consumption;
+using MeterSystem.Common.Interfaces;
+using MeterSystem.Common.Interfaces.IServices;
+using MeterSystem.Common.Mapping;
+using MeterSystem.Common.Responses;
 using MeterSystem.Core.Mapping;
-using MeterSystem.Core.Responses;
-using MeterSystem.Core.Services.Base;
-using MeterSystem.Core.Services.Interfaces;
-using MeterSystem.Domain.Interfaces;
 
 namespace MeterSystem.Core.Services
 {
-    public class ConsumptionService : BaseService, IConsumptionService
+    public class ConsumptionService 
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -16,78 +18,101 @@ namespace MeterSystem.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<BaseResponse<Guid>> CreateAsync(CreateConsumptionDto dto)
-        {
-            if (dto.CurrentReading < dto.PreviousReading)
-                return Fail<Guid>("Current reading must be greater than or equal to previous reading.");
+        //public async Task<BaseResponse<Guid>> CreateAsync(CreateConsumptionDto dto)
+        //{
+        //    try
+        //    {
+        //        if (dto == null)
+        //            return BaseResponse<Guid>.FailResult(Messages.Required("DTO"));
 
-            if (dto.MeterId == Guid.Empty)
-                return Fail<Guid>("Meter ID is required.");
+        //        if (dto.CurrentReading < dto.PreviousReading)
+        //            return BaseResponse<Guid>.FailResult(Messages.MustBeGreaterOrEqual("Current Reading", "Previous Reading"));
 
-            var entity = dto.ToEntity();
+        //        var entity = dto.ToEntity();
+        //        await _unitOfWork.Consumptions.AddAsync(entity);
+        //        await _unitOfWork.SaveChangesAsync();
 
-            await _unitOfWork.Consumptions.AddAsync(entity);
-            await _unitOfWork.SaveChangesAsync();
+        //        return BaseResponse<Guid>.SuccessResult(entity.Id, Messages.Created("Consumption"));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BaseResponse<Guid>.FailResult($"Unexpected error: {ex.Message}");
+        //    }
+        //}
 
-            return Success(entity.Id, "Consumption created successfully.");
-        }
+        //public async Task<BaseResponse<bool>> DeleteAsync(Guid id)
+        //{
+        //    try
+        //    {
+        //        var entity = await _unitOfWork.Consumptions.GetOneAsync(x => x.Id == id);
+        //        if (entity == null)
+        //            return BaseResponse<bool>.FailResult(Messages.NotFound("Consumption"));
 
-        public async Task<BaseResponse<bool>> DeleteAsync(Guid id)
-        {
-            var entity = await _unitOfWork.Consumptions.GetOneAsync(x => x.Id == id);
-            if (entity is null)
-                return Fail<bool>("Consumption not found");
+        //        await _unitOfWork.Consumptions.DeleteAsync(entity);
+        //        await _unitOfWork.SaveChangesAsync();
 
-            await _unitOfWork.Consumptions.DeleteAsync(entity);
-            await _unitOfWork.SaveChangesAsync();
+        //        return BaseResponse<bool>.SuccessResult(true, Messages.Deleted("Consumption"));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BaseResponse<bool>.FailResult($"Unexpected error: {ex.Message}");
+        //    }
+        //}
 
-            return Success(true, "Consumption deleted successfully.");
-        }
+        //public async Task<BaseResponse<List<ConsumptionDto>>> GetAllAsync(Expression<Func<ConsumptionDto, bool>> filter = null, bool isTracking = false, string? props = null)
+        //{
+        //    try
+        //    {
+        //        var entities = await _unitOfWork.Consumptions.GetAllAsync(null, isTracking, props);
+        //        var dtos = entities.Select(x => x.ToDto()).ToList();
 
-        public async Task<BaseResponse<List<ConsumptionDto>>> GetAllAsync()
-        {
-            var entities = await _unitOfWork.Consumptions.GetAllAsync();
-            var result = entities.Select(e => e.ToDto()).ToList();
-            return Success(result);
-        }
+        //        if (filter != null)
+        //            dtos = dtos.AsQueryable().Where(filter).ToList();
 
-        public async Task<BaseResponse<ConsumptionDto>> GetByIdAsync(Guid id)
-        {
-            var entity = await _unitOfWork.Consumptions.GetOneAsync(x => x.Id == id);
-            return entity is null
-                ? Fail<ConsumptionDto>("Not found")
-                : Success(entity.ToDto());
-        }
+        //        return BaseResponse<List<ConsumptionDto>>.SuccessResult(dtos);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BaseResponse<List<ConsumptionDto>>.FailResult($"Unexpected error: {ex.Message}");
+        //    }
+        //}
 
-        public async Task<BaseResponse<List<ConsumptionDto>>> GetByMeterIdAsync(Guid meterId)
-        {
-            var entities = await _unitOfWork.Consumptions.GetAllAsync(x => x.MeterId == meterId);
+        //public async Task<BaseResponse<ConsumptionDto>> GetByOneAsync(Expression<Func<ConsumptionDto, bool>>? filter = null, bool isTracking = false, string? props = null)
+        //{
+        //    try
+        //    {
+        //        var entities = await _unitOfWork.Consumptions.GetAllAsync(null, isTracking, props);
+        //        var dtos = entities.Select(x => x.ToDto()).AsQueryable();
 
-            var result = entities.Select(e => e.ToDto()).ToList();
+        //        var result = filter == null ? dtos.FirstOrDefault() : dtos.FirstOrDefault(filter);
+        //        return result == null
+        //            ? BaseResponse<ConsumptionDto>.FailResult(Messages.NotFound("Consumption"))
+        //            : BaseResponse<ConsumptionDto>.SuccessResult(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BaseResponse<ConsumptionDto>.FailResult($"Unexpected error: {ex.Message}");
+        //    }
+        //}
 
-            return result.Count == 0
-                ? Fail<List<ConsumptionDto>>("No consumption records found for this meter.")
-                : Success(result);
-        }
+        //public async Task<BaseResponse<bool>> UpdateAsync(UpdateConsumptionDto dto)
+        //{
+        //    try
+        //    {
+        //        var entity = await _unitOfWork.Consumptions.GetOneAsync(x => x.Id == dto.Id);
+        //        if (entity == null)
+        //            return BaseResponse<bool>.FailResult(Messages.NotFound("Consumption"));
 
+        //        entity.MapToEntity(dto);
+        //        await _unitOfWork.Consumptions.UpdateAsync(entity);
+        //        await _unitOfWork.SaveChangesAsync();
 
-        public async Task<BaseResponse<bool>> UpdateAsync(UpdateConsumptionDto dto)
-        {
-            if (dto.CurrentReading < dto.PreviousReading)
-                return Fail<bool>("Current reading must be greater than or equal to previous reading.");
-
-            if (dto.MeterId == Guid.Empty)
-                return Fail<bool>("Meter ID is required.");
-
-            var entity = await _unitOfWork.Consumptions.GetOneAsync(x => x.Id == dto.Id);
-            if (entity is null)
-                return Fail<bool>("Consumption not found");
-
-            entity.MapToEntity(dto);
-            await _unitOfWork.Consumptions.UpdateAsync(entity);
-            await _unitOfWork.SaveChangesAsync();
-
-            return Success(true, "Consumption updated successfully.");
-        }
+        //        return BaseResponse<bool>.SuccessResult(true, Messages.Updated("Consumption"));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BaseResponse<bool>.FailResult($"Unexpected error: {ex.Message}");
+        //    }
+        //}
     }
 }

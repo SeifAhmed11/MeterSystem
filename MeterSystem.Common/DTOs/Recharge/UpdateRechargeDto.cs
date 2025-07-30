@@ -1,4 +1,4 @@
-﻿namespace MeterSystem.Core.DTOs.Recharge
+﻿namespace MeterSystem.Common.DTOs.Recharge
 {
     public class UpdateRechargeDto
     {

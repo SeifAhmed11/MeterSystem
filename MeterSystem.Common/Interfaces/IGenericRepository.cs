@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace MeterSystem.Domain.Interfaces
+namespace MeterSystem.Common.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {

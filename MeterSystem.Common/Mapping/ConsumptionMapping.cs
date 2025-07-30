@@ -1,7 +1,8 @@
-﻿using MeterSystem.Core.DTOs.Consumption;
+﻿using MeterSystem.Common.DTOs.Consumption;
 using MeterSystem.Domain.Entities;
 
-namespace MeterSystem.Core.Mapping
+
+namespace MeterSystem.Common.Mapping
 {
     public static class ConsumptionMapping
     {

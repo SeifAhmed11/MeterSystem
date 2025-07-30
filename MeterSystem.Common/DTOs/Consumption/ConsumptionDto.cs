@@ -1,4 +1,4 @@
-﻿namespace MeterSystem.Core.DTOs.Consumption
+﻿namespace MeterSystem.Common.DTOs.Consumption
 {
     public class ConsumptionDto
     {

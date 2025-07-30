@@ -1,4 +1,4 @@
-﻿namespace MeterSystem.Core.DTOs.Customer
+﻿namespace MeterSystem.Common.DTOs.Customer
 {
     public class CustomerDto
     {

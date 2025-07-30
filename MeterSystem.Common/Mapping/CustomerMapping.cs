@@ -1,4 +1,4 @@
-﻿using MeterSystem.Core.DTOs.Customer;
+﻿using MeterSystem.Common.DTOs.Customer;
 using MeterSystem.Domain.Entities;
 
 namespace MeterSystem.Core.Mapping

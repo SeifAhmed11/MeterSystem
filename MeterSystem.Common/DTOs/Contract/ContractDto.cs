@@ -1,4 +1,4 @@
-﻿namespace MeterSystem.Core.DTOs.Contract
+﻿namespace MeterSystem.Common.DTOs.Contract
 {
     public class ContractDto
     {

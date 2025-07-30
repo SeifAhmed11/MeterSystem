@@ -1,4 +1,4 @@
-﻿namespace MeterSystem.Core.DTOs.Meter
+﻿namespace MeterSystem.Common.DTOs.Meter
 {
     public class UpdateMeterDto
     {

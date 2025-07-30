@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MeterSystem.Domain.Entities;
-using MeterSystem.Domain.Interfaces;
+﻿using MeterSystem.Domain.Entities;
+using MeterSystem.Common.Interfaces;
 using MeterSystem.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace MeterSystem.Infrastructure.Data
 {

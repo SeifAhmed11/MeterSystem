@@ -1,6 +1,6 @@
 ﻿using MeterSystem.Domain.Entities;
 
-namespace MeterSystem.Domain.Interfaces
+namespace MeterSystem.Common.Interfaces
 {
     public interface IUnitOfWork
     {
