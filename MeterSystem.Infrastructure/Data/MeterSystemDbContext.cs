@@ -30,7 +30,7 @@ namespace MeterSystem.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new ContractConfiguration());
 
-            modelBuilder.Entity<BaseEntity>().HasQueryFilter(b => !b.IsDeleted);
+            modelBuilder.Entity<Contract>().HasQueryFilter(b => b.IsDeleted == false);
 
             base.OnModelCreating(modelBuilder);
         }
