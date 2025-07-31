@@ -6,6 +6,7 @@ using MeterSystem.Common.Interfaces.IServices;
 using MeterSystem.Common.Responses;
 using MeterSystem.Core.Mapping;
 using MeterSystem.Domain.Entities;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MeterSystem.Core.Services
 {
@@ -78,11 +79,24 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(x => x.Id == id);
+                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(x => x.Id == id, props:"Customer,Meter");
                 if (entity == null)
                     return BaseResponse<bool>.FailResult(StaticMessages.NotFound);
 
+                var contractsOfCustomer = await _unitOfWork.Repository<Contract>().GetAllAsync(filter: c => c.CustomerId == entity.CustomerId);
+
+                int countofCustomerContract = contractsOfCustomer.Count();
+
+                if (countofCustomerContract == 1)
+                {
+                    await _unitOfWork.Repository<Customer>().DeleteAsync(entity.Customer);
+                }
+
                 await _unitOfWork.Repository<Contract>().DeleteAsync(entity);
+                await _unitOfWork.Repository<Meter>().DeleteAsync(entity.Meter);
+
+                
+
                 await _unitOfWork.SaveChangesAsync();
 
                 return BaseResponse<bool>.SuccessResult(true, StaticMessages.Deleted);
@@ -111,7 +125,7 @@ namespace MeterSystem.Core.Services
             }
         }
 
-        public async Task<BaseResponse<ContractDto>> GetByOneAsync(Expression<Func<Contract, bool>> filter)
+        public async Task<BaseResponse<ContractDto>> GetByOneAsync(Expression<Func<Contract, bool>> filter, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {
