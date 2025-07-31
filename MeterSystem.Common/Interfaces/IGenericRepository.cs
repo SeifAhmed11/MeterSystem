@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using MeterSystem.Domain.Base;
+using System.Linq.Expressions;
 
 namespace MeterSystem.Common.Interfaces
 {
@@ -9,5 +10,6 @@ namespace MeterSystem.Common.Interfaces
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
+        Task<string> GetLastCustomerCodeAsync();
     }
 }

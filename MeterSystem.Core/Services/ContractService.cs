@@ -51,6 +51,11 @@ namespace MeterSystem.Core.Services
                 }
                 else
                 {
+                    var lastCode = await _unitOfWork.Repository<Contract>().GetLastCustomerCodeAsync();
+
+                    int nextCode = int.TryParse(lastCode, out var numericCode) ? numericCode + 1 : 1;
+                    contractEntity.CustomerCode = nextCode.ToString("D4");
+
                     var Customer = await _unitOfWork.Repository<Customer>().AddAsync(CustomerEntity);
                     contractEntity.Customer = Customer;
                 }
