@@ -28,7 +28,6 @@ namespace MeterSystem.Core.Mapping
                 Type = dto.Type,
                 InstalledDate = dto.InstalledDate,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
             };
         }
 

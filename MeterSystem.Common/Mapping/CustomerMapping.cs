@@ -27,7 +27,6 @@ namespace MeterSystem.Core.Mapping
                 Name = dto.Name,
                 Address = dto.Address,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
             };
         }
 
