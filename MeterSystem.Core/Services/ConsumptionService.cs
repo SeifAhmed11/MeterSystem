@@ -59,11 +59,11 @@ namespace MeterSystem.Core.Services
             }
         }
 
-        public async Task<BaseResponse<List<ConsumptionDto>>> GetAllAsync(Expression<Func<Consumption, bool>>? filter = null, bool isTracking = false, string? props = null)
+        public async Task<BaseResponse<List<ConsumptionDto>>> GetAllAsync(Expression<Func<Consumption, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {
-                var entities = await _unitOfWork.Repository<Consumption>().GetAllAsync(filter, isTracking, props);
+                var entities = await _unitOfWork.Repository<Consumption>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props);
                 var dtos = entities.Select(e => e.ToDto()).ToList();
                 return BaseResponse<List<ConsumptionDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }

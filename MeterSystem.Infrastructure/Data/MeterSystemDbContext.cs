@@ -31,6 +31,10 @@ namespace MeterSystem.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new ContractConfiguration());
 
             modelBuilder.Entity<Contract>().HasQueryFilter(b => b.IsDeleted == false);
+            modelBuilder.Entity<Customer>().HasQueryFilter(b => b.IsDeleted == false);
+            modelBuilder.Entity<Meter>().HasQueryFilter(b => b.IsDeleted == false);
+            modelBuilder.Entity<Recharge>().HasQueryFilter(b => b.IsDeleted == false);
+            modelBuilder.Entity<Consumption>().HasQueryFilter(b => b.IsDeleted == false);
 
             base.OnModelCreating(modelBuilder);
         }

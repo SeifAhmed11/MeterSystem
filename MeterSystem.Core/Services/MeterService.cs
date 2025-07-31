@@ -18,11 +18,11 @@ namespace MeterSystem.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<BaseResponse<List<MeterDto>>> GetAllAsync(Expression<Func<Meter, bool>>? filter = null, bool isTracking = false, string? props = null)
+        public async Task<BaseResponse<List<MeterDto>>> GetAllAsync(Expression<Func<Meter, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {
-                var meters = await _unitOfWork.Repository<Meter>().GetAllAsync(filter, isTracking, props);
+                var meters = await _unitOfWork.Repository<Meter>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props);
                 if (meters == null || !meters.Any())
                     return BaseResponse<List<MeterDto>>.FailResult(StaticMessages.NotFound);
 

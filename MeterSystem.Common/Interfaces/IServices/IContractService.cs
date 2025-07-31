@@ -8,7 +8,7 @@ namespace MeterSystem.Common.Interfaces.IServices
 {
     public interface IContractService
     {
-        Task<BaseResponse<List<ContractDto>>> GetAllAsync(Expression<Func<Contract, bool>>? filter = null);
+        Task<BaseResponse<List<ContractDto>>> GetAllAsync(Expression<Func<Contract, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null);
         Task<BaseResponse<ContractDto>> GetByOneAsync(Expression<Func<Contract, bool>> filter);
         Task<BaseResponse<ContractDto>> CreateAsync(CreateContractDto dto);
         Task<BaseResponse<ContractDto>> UpdateAsync(UpdateContractDto dto);

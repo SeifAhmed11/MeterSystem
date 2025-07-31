@@ -10,7 +10,7 @@ namespace MeterSystem.Common.Interfaces.IServices
 {
     public interface IMeterService
     {
-        Task<BaseResponse<List<MeterDto>>> GetAllAsync(Expression<Func<Meter, bool>>? filter = null, bool isTracking = false, string? props = null);
+        Task<BaseResponse<List<MeterDto>>> GetAllAsync(Expression<Func<Meter, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null);
         Task<BaseResponse<MeterDto>> GetOneAsync(Expression<Func<Meter, bool>> filter, bool isTracking = false, string? props = null);
     }
 }

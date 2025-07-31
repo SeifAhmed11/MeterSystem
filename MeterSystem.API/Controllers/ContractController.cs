@@ -25,10 +25,19 @@ namespace MeterSystem.API.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllContract()
         {
             var response = await _contractService.GetAllAsync();
+            if (!response.Success)
+                return BadRequest(response.Message);
+            return Ok(response);
+        }
+
+        [HttpGet("GetAllDeleted")]
+        public async Task<IActionResult> GetAllDeletedContract()
+        {
+            var response = await _contractService.GetAllAsync(filter: c => c.IsDeleted == true,ignoreQueryFilters:true);
             if (!response.Success)
                 return BadRequest(response.Message);
             return Ok(response);

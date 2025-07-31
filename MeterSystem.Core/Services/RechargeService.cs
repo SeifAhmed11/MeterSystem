@@ -56,11 +56,11 @@ namespace MeterSystem.Application.Services
             }
         }
 
-        public async Task<BaseResponse<List<RechargeDto>>> GetAllAsync(Expression<Func<Recharge, bool>>? filter = null, bool isTracking = false, string? props = null)
+        public async Task<BaseResponse<List<RechargeDto>>> GetAllAsync(Expression<Func<Recharge, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {
-                var entities = await _unitOfWork.Repository<Recharge>().GetAllAsync(filter, isTracking, props);
+                var entities = await _unitOfWork.Repository<Recharge>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props);
                 var dtos = entities.Select(r => r.ToDto()).ToList();
                 return BaseResponse<List<RechargeDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }

@@ -13,7 +13,7 @@ namespace MeterSystem.Common.Interfaces.IServices
 {
     public interface IRechargeService
     {
-        Task<BaseResponse<List<RechargeDto>>> GetAllAsync(Expression<Func<Recharge, bool>>? filter = null, bool isTracking = false, string? props = null);
+        Task<BaseResponse<List<RechargeDto>>> GetAllAsync(Expression<Func<Recharge, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null);
         Task<BaseResponse<RechargeDto>> GetByOneAsync(Expression<Func<Recharge, bool>> filter, bool isTracking = false, string? props = null);
         Task<BaseResponse<RechargeDto>> CreateAsync(CreateRechargeDto dto);
         Task<BaseResponse<RechargeDto>> UpdateAsync(UpdateRechargeDto dto);
