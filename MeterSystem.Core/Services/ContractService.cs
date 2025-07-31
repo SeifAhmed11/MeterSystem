@@ -89,7 +89,7 @@ namespace MeterSystem.Core.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<bool>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<bool>.FailResult($"Unexpected error:= {ex.Message}");
             }
         }
 
@@ -98,6 +98,10 @@ namespace MeterSystem.Core.Services
             try
             {
                 var entities = await _unitOfWork.Repository<Contract>().GetAllAsync(filter, isTracking:true, props: "Meter,Customer");
+                if (entities == null || !entities.Any())
+                    return BaseResponse<List<ContractDto>>.FailResult(StaticMessages.NotFound);
+
+
                 var dtos = entities.Select(x => x.ToDto()).ToList();
                 return BaseResponse<List<ContractDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
