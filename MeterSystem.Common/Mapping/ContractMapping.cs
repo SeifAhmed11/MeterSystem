@@ -28,7 +28,6 @@ namespace MeterSystem.Core.Mapping
         {
             return new Contract
             {
-                CustomerCode = dto.CustomerCode,
                 InstallationAddress = dto.InstallationAddress,
                 ActivationDate = dto.ActivationDate,
                 FixedFees = dto.FixedFees,

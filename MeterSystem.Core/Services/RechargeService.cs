@@ -22,9 +22,20 @@ namespace MeterSystem.Application.Services
         {
             try
             {
-                if (dto == null)
-                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.Required);
+                if (dto.Amount <= 0)
+                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.Invalid);
 
+                // Check if Meter exists
+                var meter = await _unitOfWork.Repository<Meter>().GetOneAsync(x => x.Id == dto.MeterId);
+                if (meter == null)
+                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.NotFound);
+
+                // Check if Customer exists
+                var customer = await _unitOfWork.Repository<Customer>().GetOneAsync(x => x.Id == dto.CustomerId);
+                if (customer == null)
+                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.NotFound);
+
+                // Create Recharge entity
                 var entity = dto.ToEntity();
                 await _unitOfWork.Repository<Recharge>().AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
@@ -36,6 +47,7 @@ namespace MeterSystem.Application.Services
                 return BaseResponse<RechargeDto>.FailResult($"Unexpected error: {ex.Message}");
             }
         }
+
 
         public async Task<BaseResponse<bool>> DeleteAsync(Guid id)
         {
@@ -56,11 +68,11 @@ namespace MeterSystem.Application.Services
             }
         }
 
-        public async Task<BaseResponse<List<RechargeDto>>> GetAllAsync(Expression<Func<Recharge, bool>>? filter = null, bool isTracking = false, string? props = null)
+        public async Task<BaseResponse<List<RechargeDto>>> GetAllAsync(Expression<Func<Recharge, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {
-                var entities = await _unitOfWork.Repository<Recharge>().GetAllAsync(filter, isTracking, props);
+                var entities = await _unitOfWork.Repository<Recharge>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props);
                 var dtos = entities.Select(r => r.ToDto()).ToList();
                 return BaseResponse<List<RechargeDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }

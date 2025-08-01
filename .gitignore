@@ -31,3 +31,5 @@
 # ======= HTTP Test Files =======
 *.http
 
+/MeterSystem.API/WeatherForecast.cs
+/MeterSystem.API/Controllers/WeatherForecastController.cs

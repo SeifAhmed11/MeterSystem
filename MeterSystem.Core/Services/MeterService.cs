@@ -18,92 +18,41 @@ namespace MeterSystem.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<BaseResponse<MeterDto>> CreateAsync(CreateMeterDto dto)
+        public async Task<BaseResponse<List<MeterDto>>> GetAllAsync(Expression<Func<Meter, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {
-                if (dto == null)
-                    return BaseResponse<MeterDto>.FailResult(StaticMessages.Required);
+                var meters = await _unitOfWork.Repository<Meter>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props);
+                if (meters == null || !meters.Any())
+                    return BaseResponse<List<MeterDto>>.FailResult(StaticMessages.NotFound);
 
-                var entity = dto.ToEntity();
-                await _unitOfWork.Repository<Meter>().AddAsync(entity);
-                await _unitOfWork.SaveChangesAsync();
+                var dtos = meters.Select(c => c.ToDto()).ToList();
 
-                return BaseResponse<MeterDto>.SuccessResult(entity.ToDto(), StaticMessages.Created);
-            }
-            catch (Exception ex)
-            {
-                return BaseResponse<MeterDto>.FailResult($"Unexpected error: {ex.Message}");
-            }
-        }
-
-        public async Task<BaseResponse<bool>> DeleteAsync(Guid id)
-        {
-            try
-            {
-                var entity = await _unitOfWork.Repository<Meter>().GetOneAsync(x => x.Id == id);
-                if (entity == null)
-                    return BaseResponse<bool>.FailResult(StaticMessages.NotFound);
-
-                await _unitOfWork.Repository<Meter>().DeleteAsync(entity);
-                await _unitOfWork.SaveChangesAsync();
-                return BaseResponse<bool>.SuccessResult(true, StaticMessages.Deleted);
-            }
-            catch (Exception ex)
-            {
-                return BaseResponse<bool>.FailResult($"Unexpected error: {ex.Message}");
-            }
-        }
-
-        public async Task<BaseResponse<List<MeterDto>>> GetAllAsync(Expression<Func<Meter, bool>>? filter = null, bool isTracking = false, string? props = null)
-        {
-            try
-            {
-                var meters = await _unitOfWork.Repository<Meter>().GetAllAsync(filter, isTracking, props);
-                var dtos = meters.Select(x => x.ToDto()).ToList();
                 return BaseResponse<List<MeterDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
             catch (Exception ex)
             {
-                return BaseResponse<List<MeterDto>>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<List<MeterDto>>.FailResult($"{ex.Message}");
             }
         }
 
-        public async Task<BaseResponse<MeterDto>> GetByOneAsync(Expression<Func<Meter, bool>> filter, bool isTracking = false, string? props = null)
+        public async Task<BaseResponse<MeterDto>> GetOneAsync(Expression<Func<Meter, bool>> filter, bool isTracking = false, string? props = null)
         {
             try
             {
-                var entity = await _unitOfWork.Repository<Meter>().GetOneAsync(filter, isTracking, props);
-                return entity == null
-                    ? BaseResponse<MeterDto>.FailResult(StaticMessages.NotFound)
-                    : BaseResponse<MeterDto>.SuccessResult(entity.ToDto(), StaticMessages.Loaded);
-            }
-            catch (Exception ex)
-            {
-                return BaseResponse<MeterDto>.FailResult($"Unexpected error: {ex.Message}");
-            }
-        }
-
-        public async Task<BaseResponse<MeterDto>> UpdateAsync(UpdateMeterDto dto)
-        {
-            try
-            {
-                if (dto == null)
-                    return BaseResponse<MeterDto>.FailResult(StaticMessages.Required);
-
-                var entity = await _unitOfWork.Repository<Meter>().GetOneAsync(x => x.Id == dto.Id);
-                if (entity == null)
+                var customer = await _unitOfWork.Repository<Meter>().GetOneAsync(filter, isTracking, props);
+                if (customer == null)
+                {
                     return BaseResponse<MeterDto>.FailResult(StaticMessages.NotFound);
+                }
 
-                dto.MapToEntity(entity);
-                await _unitOfWork.Repository<Meter>().UpdateAsync(entity);
-                await _unitOfWork.SaveChangesAsync();
+                var dto = customer.ToDto();
 
-                return BaseResponse<MeterDto>.SuccessResult(entity.ToDto(), StaticMessages.Updated);
+                return BaseResponse<MeterDto>.SuccessResult(dto, StaticMessages.Loaded);
             }
             catch (Exception ex)
             {
-                return BaseResponse<MeterDto>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<MeterDto>.FailResult($"{ex.Message}");
             }
         }
     }

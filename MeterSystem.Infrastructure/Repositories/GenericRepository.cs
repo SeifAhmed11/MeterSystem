@@ -1,7 +1,10 @@
 ﻿using MeterSystem.Common.Interfaces;
+using MeterSystem.Domain.Base;
+using MeterSystem.Domain.Entities;
 using MeterSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MeterSystem.Infrastructure.Repositories
 {
@@ -26,9 +29,13 @@ namespace MeterSystem.Infrastructure.Repositories
             return Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter, bool isTracking = false, string? props = null)
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             IQueryable<T> Data = _dbSet;
+
+            if (ignoreQueryFilters)
+                Data = Data.IgnoreQueryFilters();
+
             if (filter is not null) 
             {
                 Data = Data.Where(filter);
@@ -64,6 +71,20 @@ namespace MeterSystem.Infrastructure.Repositories
         {
             _dbSet.Update(entity);   
             return Task.CompletedTask;
+        }
+
+        public async Task<string> GetLastCustomerCodeAsync()
+        {
+            var maxId = await _context.Set<Contract>().MaxAsync(c => (Guid?)c.Id);
+            if (maxId == null)
+                return "0000";
+
+            var lastCustomer = await _context.Set<Contract>()
+                .Where(c => c.Id == maxId.Value)
+                .Select(c => c.CustomerCode)
+                .FirstOrDefaultAsync();
+
+            return lastCustomer ?? "0000";
         }
     }
 }

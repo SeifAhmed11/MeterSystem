@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MeterSystem.Domain.Base;
 using MeterSystem.Domain.Entities;
 using MeterSystem.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,12 @@ namespace MeterSystem.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new ConsumptionConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new ContractConfiguration());
+
+            modelBuilder.Entity<Contract>().HasQueryFilter(b => b.IsDeleted == false);
+            modelBuilder.Entity<Customer>().HasQueryFilter(b => b.IsDeleted == false);
+            modelBuilder.Entity<Meter>().HasQueryFilter(b => b.IsDeleted == false);
+            modelBuilder.Entity<Recharge>().HasQueryFilter(b => b.IsDeleted == false);
+            modelBuilder.Entity<Consumption>().HasQueryFilter(b => b.IsDeleted == false);
 
             base.OnModelCreating(modelBuilder);
         }

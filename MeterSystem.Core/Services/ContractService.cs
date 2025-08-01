@@ -6,6 +6,7 @@ using MeterSystem.Common.Interfaces.IServices;
 using MeterSystem.Common.Responses;
 using MeterSystem.Core.Mapping;
 using MeterSystem.Domain.Entities;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MeterSystem.Core.Services
 {
@@ -40,14 +41,18 @@ namespace MeterSystem.Core.Services
 
                 var CustomerEntity = dto.CustomerDTO.ToEntity();
 
-                var exsitsCustomer = await _unitOfWork.Repository<Customer>().GetOneAsync(filter: m => m.NationalId == CustomerEntity.NationalId);
+                var exsitsCustomer = await _unitOfWork.Repository<Customer>().GetOneAsync(filter: m => m.NationalId == dto.CustomerDTO.NationalId);
 
                 var CustomerId = Guid.Empty;
 
+                var lastCode = await _unitOfWork.Repository<Contract>().GetLastCustomerCodeAsync();
+
+                int nextCode = int.TryParse(lastCode, out var numericCode) ? numericCode + 1 : 1;
+                contractEntity.CustomerCode = nextCode.ToString("D4");
+
                 if (exsitsCustomer is not null)
                 {
-                    CustomerId = exsitsCustomer.Id;
-                    contractEntity.CustomerId = CustomerId;
+                    contractEntity.CustomerId = exsitsCustomer.Id;
                 }
                 else
                 {
@@ -55,7 +60,7 @@ namespace MeterSystem.Core.Services
                     contractEntity.Customer = Customer;
                 }
 
-                
+
                 contractEntity.Meter = meter;
 
                 await _unitOfWork.Repository<Contract>().AddAsync(contractEntity);
@@ -73,26 +78,41 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(x => x.Id == id);
+                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(x => x.Id == id, props:"Customer,Meter");
                 if (entity == null)
                     return BaseResponse<bool>.FailResult(StaticMessages.NotFound);
 
+                var contractsOfCustomer = await _unitOfWork.Repository<Contract>().GetAllAsync(filter: c => c.CustomerId == entity.CustomerId);
+
+                int countofCustomerContract = contractsOfCustomer.Count();
+
+                if (countofCustomerContract == 1)
+                {
+                    await _unitOfWork.Repository<Customer>().DeleteAsync(entity.Customer);
+                }
+
                 await _unitOfWork.Repository<Contract>().DeleteAsync(entity);
+                await _unitOfWork.Repository<Meter>().DeleteAsync(entity.Meter);
+
+                
+
                 await _unitOfWork.SaveChangesAsync();
 
                 return BaseResponse<bool>.SuccessResult(true, StaticMessages.Deleted);
             }
             catch (Exception ex)
             {
-                return BaseResponse<bool>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<bool>.FailResult($"Unexpected error:= {ex.Message}");
             }
         }
 
-        public async Task<BaseResponse<List<ContractDto>>> GetAllAsync(Expression<Func<Contract, bool>>? filter = null)
+        public async Task<BaseResponse<List<ContractDto>>> GetAllAsync(Expression<Func<Contract, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {
-                var entities = await _unitOfWork.Repository<Contract>().GetAllAsync(isTracking:true, props: "Meter,Customer");
+                var entities = await _unitOfWork.Repository<Contract>().GetAllAsync(filter, isTracking:true, ignoreQueryFilters, props: "Meter,Customer");
+                if (entities == null || !entities.Any())
+                    return BaseResponse<List<ContractDto>>.FailResult(StaticMessages.NotFound);
                 var dtos = entities.Select(x => x.ToDto()).ToList();
                 return BaseResponse<List<ContractDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
@@ -102,7 +122,7 @@ namespace MeterSystem.Core.Services
             }
         }
 
-        public async Task<BaseResponse<ContractDto>> GetByOneAsync(Expression<Func<Contract, bool>> filter)
+        public async Task<BaseResponse<ContractDto>> GetByOneAsync(Expression<Func<Contract, bool>> filter, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {

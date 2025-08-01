@@ -1,4 +1,7 @@
-﻿namespace MeterSystem.Common.DTOs.Recharge
+﻿using MeterSystem.Common.DTOs.Customer;
+using MeterSystem.Common.DTOs.Meter;
+
+namespace MeterSystem.Common.DTOs.Recharge
 {
     public class RechargeDto
     {
@@ -11,5 +14,8 @@
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        public MeterDto? Meter { get; set; }
+        public CustomerDto? Customer { get; set; }
     }
 }

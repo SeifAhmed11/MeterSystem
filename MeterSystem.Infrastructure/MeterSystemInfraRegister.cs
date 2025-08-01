@@ -1,5 +1,6 @@
 ﻿using MeterSystem.Common.Interfaces;
 using MeterSystem.Infrastructure.Data;
+using MeterSystem.Infrastructure.Interceptors;
 using MeterSystem.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,7 @@ namespace MeterSystem.Infrastructure
         { 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<SoftDeleteInterceptor>();
         }
     }
 }
