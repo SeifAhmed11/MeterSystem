@@ -15,7 +15,6 @@ namespace MeterSystem.Core.Mapping
                 InstallationAddress = contract.InstallationAddress,
                 ActivationDate = contract.ActivationDate,
                 FixedFees = contract.FixedFees,
-                IsActive = contract.IsActive,
                 MeterId = contract.MeterId,
                 CustomerId = contract.CustomerId,
                 CreatedAt = contract.CreatedAt,
@@ -31,7 +30,6 @@ namespace MeterSystem.Core.Mapping
                 InstallationAddress = dto.InstallationAddress,
                 ActivationDate = dto.ActivationDate,
                 FixedFees = dto.FixedFees,
-                IsActive = dto.IsActive,
                 CreatedAt = DateTime.UtcNow,
             };
         }
@@ -40,7 +38,7 @@ namespace MeterSystem.Core.Mapping
         {
             contract.InstallationAddress = dto.InstallationAddress;
             contract.FixedFees = dto.FixedFees;
-            contract.IsActive = dto.IsActive;
+            contract.Meter.Type = dto.MeterDTO.Type;
             contract.UpdatedAt = DateTime.UtcNow;
         }
     }

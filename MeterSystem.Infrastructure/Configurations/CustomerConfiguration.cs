@@ -11,7 +11,7 @@ namespace MeterSystem.Infrastructure.Configurations
             builder.ToTable("customers");
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Id)
-                .HasColumnName("customer_id")
+                .HasColumnName("id")
                 .ValueGeneratedOnAdd();
 
             builder.Property(c => c.NationalId)

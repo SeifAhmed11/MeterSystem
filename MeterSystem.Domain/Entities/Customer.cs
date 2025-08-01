@@ -7,7 +7,6 @@ namespace MeterSystem.Domain.Entities
         public string NationalId { get; set; } = default!;
         public string Name { get; set; } = default!;
         public string Address { get; set; } = default!;
-        public ICollection<Recharge> Recharges { get; set; } = default!;
         public ICollection<Consumption> Consumptions { get; set; }  = default!;
         public ICollection<Contract> Contracts { get; set; } = default!;
         

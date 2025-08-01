@@ -6,7 +6,6 @@ using MeterSystem.Common.Interfaces.IServices;
 using MeterSystem.Common.Responses;
 using MeterSystem.Core.Mapping;
 using MeterSystem.Domain.Entities;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MeterSystem.Core.Services
 {
@@ -102,7 +101,7 @@ namespace MeterSystem.Core.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<bool>.FailResult($"Unexpected error:= {ex.Message}");
+                return BaseResponse<bool>.FailResult($"{ex.Message}");
             }
         }
 
@@ -118,7 +117,7 @@ namespace MeterSystem.Core.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<List<ContractDto>>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<List<ContractDto>>.FailResult($"{ex.Message}");
             }
         }
 
@@ -133,7 +132,7 @@ namespace MeterSystem.Core.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<ContractDto>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<ContractDto>.FailResult($"{ex.Message}");
             }
         }
 
@@ -144,7 +143,7 @@ namespace MeterSystem.Core.Services
                 if (dto == null)
                     return BaseResponse<ContractDto>.FailResult(StaticMessages.Required);
 
-                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(x => x.Id == dto.Id);
+                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(x => x.Id == dto.Id, props:"Meter");
                 if (entity == null)
                     return BaseResponse<ContractDto>.FailResult(StaticMessages.NotFound);
 
@@ -156,7 +155,7 @@ namespace MeterSystem.Core.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<ContractDto>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<ContractDto>.FailResult($"{ex.Message}");
             }
         }
     }

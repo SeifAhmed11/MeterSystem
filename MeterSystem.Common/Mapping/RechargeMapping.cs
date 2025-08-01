@@ -11,9 +11,7 @@ namespace MeterSystem.Core.Mapping
             {
                 Id = recharge.Id,
                 Amount = recharge.Amount,
-                RechargeDate = recharge.RechargeDate,
                 MeterId = recharge.MeterId,
-                CustomerId = recharge.CustomerId,
                 CreatedAt = recharge.CreatedAt,
                 UpdatedAt = recharge.UpdatedAt
             };
@@ -23,22 +21,16 @@ namespace MeterSystem.Core.Mapping
         {
             return new Recharge
             {
-                Id = Guid.NewGuid(),
                 Amount = dto.Amount,
-                RechargeDate = dto.RechargeDate,
                 MeterId = dto.MeterId,
-                CustomerId = dto.CustomerId,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
             };
         }
 
         public static void MapToEntity(this UpdateRechargeDto dto, Recharge recharge)
         {
             recharge.Amount = dto.Amount;
-            recharge.RechargeDate = dto.RechargeDate;
             recharge.MeterId = dto.MeterId;
-            recharge.CustomerId = dto.CustomerId;
             recharge.UpdatedAt = DateTime.UtcNow;
         }
     }

@@ -25,17 +25,10 @@ namespace MeterSystem.Application.Services
                 if (dto.Amount <= 0)
                     return BaseResponse<RechargeDto>.FailResult(StaticMessages.Invalid);
 
-                // Check if Meter exists
                 var meter = await _unitOfWork.Repository<Meter>().GetOneAsync(x => x.Id == dto.MeterId);
                 if (meter == null)
                     return BaseResponse<RechargeDto>.FailResult(StaticMessages.NotFound);
 
-                // Check if Customer exists
-                var customer = await _unitOfWork.Repository<Customer>().GetOneAsync(x => x.Id == dto.CustomerId);
-                if (customer == null)
-                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.NotFound);
-
-                // Create Recharge entity
                 var entity = dto.ToEntity();
                 await _unitOfWork.Repository<Recharge>().AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
@@ -44,7 +37,7 @@ namespace MeterSystem.Application.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<RechargeDto>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<RechargeDto>.FailResult($"{ex.Message}");
             }
         }
 
@@ -64,7 +57,7 @@ namespace MeterSystem.Application.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<bool>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<bool>.FailResult($"{ex.Message}");
             }
         }
 
@@ -78,7 +71,7 @@ namespace MeterSystem.Application.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<List<RechargeDto>>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<List<RechargeDto>>.FailResult($"{ex.Message}");
             }
         }
 
@@ -93,7 +86,7 @@ namespace MeterSystem.Application.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<RechargeDto>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<RechargeDto>.FailResult($"{ex.Message}");
             }
         }
 
@@ -116,7 +109,7 @@ namespace MeterSystem.Application.Services
             }
             catch (Exception ex)
             {
-                return BaseResponse<RechargeDto>.FailResult($"Unexpected error: {ex.Message}");
+                return BaseResponse<RechargeDto>.FailResult($"{ex.Message}");
             }
         }
     }

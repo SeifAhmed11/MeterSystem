@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeterSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(MeterSystemDbContext))]
-    [Migration("20250731190054_addIsDeleted")]
-    partial class addIsDeleted
+    [Migration("20250801124023_Fix")]
+    partial class Fix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ namespace MeterSystem.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("consumption_id")
+                        .HasColumnName("id")
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<decimal>("ConsumptionUnits")
@@ -58,7 +58,7 @@ namespace MeterSystem.Infrastructure.Migrations
                     b.Property<DateTime>("ReadingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("UpdatedAt");
 
@@ -75,8 +75,7 @@ namespace MeterSystem.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("id");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ActivationDate")
                         .HasColumnType("datetime2")
@@ -104,17 +103,13 @@ namespace MeterSystem.Infrastructure.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasColumnName("address");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasColumnName("is_active");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("MeterId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("UpdatedAt");
 
@@ -133,7 +128,7 @@ namespace MeterSystem.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("customer_id");
+                        .HasColumnName("id");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -160,7 +155,7 @@ namespace MeterSystem.Infrastructure.Migrations
                         .HasColumnType("nvarchar(14)")
                         .HasColumnName("national_id");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("UpdatedAt");
 
@@ -176,9 +171,7 @@ namespace MeterSystem.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("meter_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
@@ -200,7 +193,7 @@ namespace MeterSystem.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("UpdatedAt");
 
@@ -213,9 +206,7 @@ namespace MeterSystem.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("recharge_id")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
@@ -224,25 +215,17 @@ namespace MeterSystem.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("CreatedAt");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("MeterId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("RechargeDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("UpdatedAt");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("MeterId");
 
@@ -285,19 +268,11 @@ namespace MeterSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("MeterSystem.Domain.Entities.Recharge", b =>
                 {
-                    b.HasOne("MeterSystem.Domain.Entities.Customer", "Customer")
-                        .WithMany("Recharges")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MeterSystem.Domain.Entities.Meter", "Meter")
                         .WithMany("Recharges")
                         .HasForeignKey("MeterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Customer");
 
                     b.Navigation("Meter");
                 });
@@ -307,8 +282,6 @@ namespace MeterSystem.Infrastructure.Migrations
                     b.Navigation("Consumptions");
 
                     b.Navigation("Contracts");
-
-                    b.Navigation("Recharges");
                 });
 
             modelBuilder.Entity("MeterSystem.Domain.Entities.Meter", b =>

@@ -11,7 +11,6 @@ namespace MeterSystem.Infrastructure.Configurations
             builder.ToTable("contracts");
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Id)
-                .HasColumnName("id")
                 .ValueGeneratedOnAdd();
 
             builder.Property(c => c.CustomerCode)
@@ -32,17 +31,12 @@ namespace MeterSystem.Infrastructure.Configurations
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
-            builder.Property(c => c.IsActive)
-                .HasColumnName("is_active")
-                .IsRequired();
-
             builder.Property(c => c.CreatedAt)
                .HasColumnName("CreatedAt")
                .IsRequired();
 
             builder.Property(c => c.UpdatedAt)
-                .HasColumnName("UpdatedAt")
-                .IsRequired();
+                .HasColumnName("UpdatedAt");
 
             builder.HasOne(c => c.Customer)
                 .WithMany(cust => cust.Contracts)

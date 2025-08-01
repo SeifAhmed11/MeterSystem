@@ -11,7 +11,7 @@ namespace MeterSystem.Infrastructure.Configurations
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.Id)
-                   .HasColumnName("consumption_id")
+                   .HasColumnName("id")
                    .HasDefaultValueSql("NEWID()");
 
             builder.Property(c => c.ReadingDate).IsRequired();

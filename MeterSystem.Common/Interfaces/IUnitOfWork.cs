@@ -1,5 +1,4 @@
-﻿using MeterSystem.Domain.Entities;
-
+﻿
 namespace MeterSystem.Common.Interfaces
 {
     public interface IUnitOfWork

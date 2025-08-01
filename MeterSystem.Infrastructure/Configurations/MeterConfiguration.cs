@@ -11,8 +11,7 @@ namespace MeterSystem.Infrastructure.Configurations
             builder.HasKey(m => m.Id);
 
             builder.Property(m => m.Id)
-                   .HasColumnName("meter_id")
-                   .HasDefaultValueSql("NEWID()");
+                   .ValueGeneratedOnAdd();
 
             builder.Property(m => m.Serial)
                    .HasMaxLength(50)

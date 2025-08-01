@@ -16,14 +16,11 @@ namespace MeterSystem.Infrastructure.Configurations
             builder.HasKey(r => r.Id);
 
             builder.Property(r => r.Id)
-                   .HasColumnName("recharge_id")
-                   .HasDefaultValueSql("NEWID()");
+                .ValueGeneratedOnAdd();
 
             builder.Property(r => r.Amount)
                    .HasColumnType("decimal(10,2)")
                    .IsRequired();
-
-            builder.Property(r => r.RechargeDate).IsRequired();
 
             builder.Property(c => c.CreatedAt)
                 .HasColumnName("CreatedAt")
@@ -35,10 +32,6 @@ namespace MeterSystem.Infrastructure.Configurations
             builder.HasOne(r => r.Meter)
                    .WithMany(m => m.Recharges)
                    .HasForeignKey(r => r.MeterId);
-
-            builder.HasOne(r => r.Customer)
-                   .WithMany(m => m.Recharges)
-                   .HasForeignKey(r => r.CustomerId);
         }
     }
 }

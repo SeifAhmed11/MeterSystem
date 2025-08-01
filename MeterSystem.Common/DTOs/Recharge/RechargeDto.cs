@@ -1,5 +1,4 @@
-﻿using MeterSystem.Common.DTOs.Customer;
-using MeterSystem.Common.DTOs.Meter;
+﻿using MeterSystem.Common.DTOs.Meter;
 
 namespace MeterSystem.Common.DTOs.Recharge
 {
@@ -7,15 +6,9 @@ namespace MeterSystem.Common.DTOs.Recharge
     {
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
-        public DateTime RechargeDate { get; set; }
-
         public Guid MeterId { get; set; }
-        public Guid CustomerId { get; set; }
-
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-
+        public DateTime? UpdatedAt { get; set; }
         public MeterDto? Meter { get; set; }
-        public CustomerDto? Customer { get; set; }
     }
 }

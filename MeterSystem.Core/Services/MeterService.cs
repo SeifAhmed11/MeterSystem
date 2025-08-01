@@ -22,7 +22,7 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var meters = await _unitOfWork.Repository<Meter>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props);
+                var meters = await _unitOfWork.Repository<Meter>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props:"Recharges");
                 if (meters == null || !meters.Any())
                     return BaseResponse<List<MeterDto>>.FailResult(StaticMessages.NotFound);
 

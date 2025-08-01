@@ -10,11 +10,10 @@ namespace MeterSystem.Common.DTOs.Contract
         public string InstallationAddress { get; set; } = default!;
         public DateTime ActivationDate { get; set; }
         public decimal FixedFees { get; set; }
-        public bool IsActive { get; set; }
         public Guid MeterId { get; set; }
         public Guid CustomerId { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public MeterDto? Meter { get; set; }
         public CustomerDto? Customer { get; set; }
     }
