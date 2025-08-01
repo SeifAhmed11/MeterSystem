@@ -112,5 +112,30 @@ namespace MeterSystem.Application.Services
                 return BaseResponse<RechargeDto>.FailResult($"{ex.Message}");
             }
         }
+        public async Task<BaseResponse<RechargeDto>> GetLastCharge(string serial)
+        {
+            try
+            {
+                var allRecharges = await _unitOfWork.Repository<Recharge>()
+                    .GetAllAsync(r => r.Meter.Serial == serial, isTracking: false, props: "Meter");
+
+                if (allRecharges == null || !allRecharges.Any())
+                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.NotFound);
+
+                var lastRecharge = allRecharges
+                    .OrderByDescending(r => r.UpdatedAt)
+                    .LastOrDefault();
+
+                if (lastRecharge == null)
+                    return BaseResponse<RechargeDto>.FailResult(StaticMessages.NotFound);
+
+                return BaseResponse<RechargeDto>.SuccessResult(lastRecharge.ToDto(), StaticMessages.Loaded);
+            }
+            catch (Exception ex)
+            {
+                return BaseResponse<RechargeDto>.FailResult($"{ex.Message}");
+            }
+        }
+
     }
 }

@@ -18,5 +18,6 @@ namespace MeterSystem.Common.Interfaces.IServices
         Task<BaseResponse<RechargeDto>> CreateAsync(CreateRechargeDto dto);
         Task<BaseResponse<RechargeDto>> UpdateAsync(UpdateRechargeDto dto);
         Task<BaseResponse<bool>> DeleteAsync(Guid id);
+        Task<BaseResponse<RechargeDto>> GetLastCharge(string serial);
     }
 }

@@ -1,4 +1,5 @@
-﻿using MeterSystem.Common.DTOs.Recharge;
+﻿using System.Diagnostics.Contracts;
+using MeterSystem.Common.DTOs.Recharge;
 using MeterSystem.Domain.Entities;
 
 namespace MeterSystem.Core.Mapping
@@ -13,7 +14,8 @@ namespace MeterSystem.Core.Mapping
                 Amount = recharge.Amount,
                 MeterId = recharge.MeterId,
                 CreatedAt = recharge.CreatedAt,
-                UpdatedAt = recharge.UpdatedAt
+                UpdatedAt = recharge.UpdatedAt,
+                Meter = recharge.Meter?.ToDto()
             };
         }
 
