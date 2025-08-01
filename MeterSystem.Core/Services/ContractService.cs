@@ -92,7 +92,7 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var entities = await _unitOfWork.Repository<Contract>().GetAllAsync(filter, isTracking:true, props: "Meter,Customer");
+                var entities = await _unitOfWork.Repository<Contract>().GetAllAsync(isTracking:true, props: "Meter,Customer");
                 var dtos = entities.Select(x => x.ToDto()).ToList();
                 return BaseResponse<List<ContractDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
@@ -106,7 +106,7 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(filter);
+                var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(filter , isTracking: true, props: "Meter,Customer");
                 return entity == null
                     ? BaseResponse<ContractDto>.FailResult(StaticMessages.NotFound)
                     : BaseResponse<ContractDto>.SuccessResult(entity.ToDto(), StaticMessages.Loaded);
