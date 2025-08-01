@@ -41,27 +41,26 @@ namespace MeterSystem.Core.Services
 
                 var CustomerEntity = dto.CustomerDTO.ToEntity();
 
-                var exsitsCustomer = await _unitOfWork.Repository<Customer>().GetOneAsync(filter: m => m.NationalId == CustomerEntity.NationalId);
+                var exsitsCustomer = await _unitOfWork.Repository<Customer>().GetOneAsync(filter: m => m.NationalId == dto.CustomerDTO.NationalId);
 
                 var CustomerId = Guid.Empty;
 
+                var lastCode = await _unitOfWork.Repository<Contract>().GetLastCustomerCodeAsync();
+
+                int nextCode = int.TryParse(lastCode, out var numericCode) ? numericCode + 1 : 1;
+                contractEntity.CustomerCode = nextCode.ToString("D4");
+
                 if (exsitsCustomer is not null)
                 {
-                    CustomerId = exsitsCustomer.Id;
-                    contractEntity.CustomerId = CustomerId;
+                    contractEntity.CustomerId = exsitsCustomer.Id;
                 }
                 else
                 {
-                    var lastCode = await _unitOfWork.Repository<Contract>().GetLastCustomerCodeAsync();
-
-                    int nextCode = int.TryParse(lastCode, out var numericCode) ? numericCode + 1 : 1;
-                    contractEntity.CustomerCode = nextCode.ToString("D4");
-
                     var Customer = await _unitOfWork.Repository<Customer>().AddAsync(CustomerEntity);
                     contractEntity.Customer = Customer;
                 }
 
-                
+
                 contractEntity.Meter = meter;
 
                 await _unitOfWork.Repository<Contract>().AddAsync(contractEntity);
