@@ -137,5 +137,29 @@ namespace MeterSystem.Application.Services
             }
         }
 
+        public async Task<BaseResponse<List<RechargeDto>>> GetByDateRangeAsync(DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+                DateTime to = toDate.Date.AddDays(1).AddTicks(-1);
+
+                Expression<Func<Recharge, bool>> filter = r =>
+                    r.CreatedAt >= fromDate && r.CreatedAt <= to;
+
+                var recharges = await _unitOfWork.Repository<Recharge>()
+                    .GetAllAsync(filter, isTracking: false, props: "Meter");
+
+                if (recharges == null || !recharges.Any())
+                    return BaseResponse<List<RechargeDto>>.FailResult(StaticMessages.NotFound);
+
+                var dtos = recharges.Select(r => r.ToDto()).ToList();
+                return BaseResponse<List<RechargeDto>>.SuccessResult(dtos, StaticMessages.Loaded);
+            }
+            catch (Exception ex)
+            {
+                return BaseResponse<List<RechargeDto>>.FailResult($"{ex.Message}");
+            }
+        }
+
     }
 }
