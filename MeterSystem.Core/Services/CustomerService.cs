@@ -21,7 +21,7 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var customers = await _unitOfWork.Repository<Customer>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props);
+                var customers = await _unitOfWork.Repository<Customer>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props:"Contracts");
                 if (customers == null || !customers.Any())
                     return BaseResponse<List<CustomerDto>>.FailResult(StaticMessages.NotFound);
 
@@ -38,7 +38,7 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var customer = await _unitOfWork.Repository<Customer>().GetOneAsync(filter, isTracking, props);
+                var customer = await _unitOfWork.Repository<Customer>().GetOneAsync(filter, isTracking, props:"Contracts");
                 if(customer == null)
                 {
                     return BaseResponse<CustomerDto>.FailResult(StaticMessages.NotFound);
