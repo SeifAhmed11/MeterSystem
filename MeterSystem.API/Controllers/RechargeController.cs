@@ -42,9 +42,9 @@ namespace MeterSystem.API.Controllers
         }
 
         [HttpGet("FilterByDate")]
-        public async Task<IActionResult> GetRechargesByDate([FromQuery] DateTime from, [FromQuery] DateTime to)
+        public async Task<IActionResult> GetRechargesByDate([FromQuery] string? serial, [FromQuery] DateTime from, [FromQuery] DateTime to)
         {
-            var response = await _rechargeService.GetByDateRangeAsync(from, to);
+            var response = await _rechargeService.GetByDateRangeAsync(serial, from, to);
             if (!response.Success)
                 return BadRequest(response.Message);
 

@@ -137,27 +137,37 @@ namespace MeterSystem.Application.Services
             }
         }
 
-        public async Task<BaseResponse<List<RechargeDto>>> GetByDateRangeAsync(DateTime fromDate, DateTime toDate)
+        public async Task<BaseResponse<object>> GetByDateRangeAsync(string? serial, DateTime fromDate, DateTime toDate)
         {
             try
             {
                 DateTime to = toDate.Date.AddDays(1).AddTicks(-1);
 
                 Expression<Func<Recharge, bool>> filter = r =>
-                    r.CreatedAt >= fromDate && r.CreatedAt <= to;
+                    r.CreatedAt >= fromDate &&
+                    r.CreatedAt <= to &&
+                    (serial == null || r.Meter.Serial == serial);
 
                 var recharges = await _unitOfWork.Repository<Recharge>()
                     .GetAllAsync(filter, isTracking: false, props: "Meter");
 
                 if (recharges == null || !recharges.Any())
-                    return BaseResponse<List<RechargeDto>>.FailResult(StaticMessages.NotFound);
+                    return BaseResponse<object>.FailResult(StaticMessages.NotFound);
 
                 var dtos = recharges.Select(r => r.ToDto()).ToList();
-                return BaseResponse<List<RechargeDto>>.SuccessResult(dtos, StaticMessages.Loaded);
+                var totalAmount = recharges.Sum(r => r.Amount);
+
+                var result = new
+                {
+                    TotalAmount = totalAmount,
+                    Recharges = dtos
+                };
+
+                return BaseResponse<object>.SuccessResult(result, StaticMessages.Loaded);
             }
             catch (Exception ex)
             {
-                return BaseResponse<List<RechargeDto>>.FailResult($"{ex.Message}");
+                return BaseResponse<object>.FailResult($"{ex.Message}");
             }
         }
 
