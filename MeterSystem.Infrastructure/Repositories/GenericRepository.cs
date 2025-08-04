@@ -1,7 +1,9 @@
-﻿using MeterSystem.Common.Interfaces;
+﻿using MeterSystem.Common.DTOs.Contract;
+using MeterSystem.Common.Interfaces;
 using MeterSystem.Domain.Base;
 using MeterSystem.Domain.Entities;
 using MeterSystem.Infrastructure.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -33,6 +35,8 @@ namespace MeterSystem.Infrastructure.Repositories
             entity.IsDeleted = true;
             entity.UpdatedAt = DateTime.UtcNow;
             _dbSet.Update(entity);
+
+            //_dbSet.Entry(entity).Property("IsDeleted").CurrentValue = true;
             
             return Task.CompletedTask;
         }

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mapping\DetailsMapping.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MeterSystem.Domain\MeterSystem.Domain.csproj" />
   </ItemGroup>
 

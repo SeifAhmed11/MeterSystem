@@ -14,5 +14,7 @@ namespace MeterSystem.Common.Interfaces.IServices
         Task<BaseResponse<ContractDto>> UpdateAsync(UpdateContractDto dto);
         Task<BaseResponse<bool>> DeleteAsync(Guid id);
         Task<BaseResponse<ContractDto>> RecoverContract(Guid id);
+        Task<BaseResponse<List<DetailsDto>>> GetCustomerDetailsReportAsync(DateTime from, DateTime to, string? customerCode = null,
+            string? meterSerial = null);
     }
 }

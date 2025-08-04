@@ -1,4 +1,5 @@
-﻿using MeterSystem.Domain.Base;
+﻿using MeterSystem.Common.DTOs.Contract;
+using MeterSystem.Domain.Base;
 using System.Linq.Expressions;
 
 namespace MeterSystem.Common.Interfaces

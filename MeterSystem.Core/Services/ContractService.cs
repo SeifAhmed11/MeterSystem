@@ -171,5 +171,19 @@ namespace MeterSystem.Core.Services
                 return BaseResponse<ContractDto>.FailResult($"{ex.Message}");
             }
         }
+
+        public async Task<BaseResponse<List<DetailsDto>>> GetCustomerDetailsReportAsync(DateTime from, DateTime to,
+            string? customerCode = null, string? meterSerial = null)
+        {
+            try
+            {
+                var result = await _unitOfWork.GetCustomerDetailsAsync(from, to, customerCode, meterSerial);
+                return BaseResponse<List<DetailsDto>>.SuccessResult(result, StaticMessages.Loaded);
+            }
+            catch(Exception ex)
+            {
+                return BaseResponse<List<DetailsDto>>.FailResult($"{ex.Message}");
+            }
+        }
     }
 }

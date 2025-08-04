@@ -7,7 +7,6 @@ namespace MeterSystem.Common.DTOs.Recharge
     {
         [Range(1,500)]
         public decimal Amount { get; set; }
-        public DateTime RechargeDate { get; set; }
         public Guid MeterId { get; set; }
     }
 }

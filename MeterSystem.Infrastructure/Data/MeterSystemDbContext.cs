@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MeterSystem.Domain.Base;
+﻿using MeterSystem.Common.DTOs.Contract;
 using MeterSystem.Domain.Entities;
 using MeterSystem.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +16,7 @@ namespace MeterSystem.Infrastructure.Data
         public DbSet<Consumption> Consumptions { get; set; } = default!;
         public DbSet<Customer> Customers { get; set; } = default!;
         public DbSet<Contract> Contracts { get; set; } = default!;
+        public DbSet<DetailsDto> CustomerDetailsResult { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +26,7 @@ namespace MeterSystem.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new ContractConfiguration());
 
+            modelBuilder.Entity<DetailsDto>().HasNoKey();
             modelBuilder.Entity<Contract>().HasQueryFilter(b => b.IsDeleted == false);
             modelBuilder.Entity<Customer>().HasQueryFilter(b => b.IsDeleted == false);
             modelBuilder.Entity<Meter>().HasQueryFilter(b => b.IsDeleted == false);

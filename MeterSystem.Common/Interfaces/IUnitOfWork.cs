@@ -1,4 +1,5 @@
 ﻿
+using MeterSystem.Common.DTOs.Contract;
 using MeterSystem.Domain.Base;
 
 namespace MeterSystem.Common.Interfaces
@@ -7,5 +8,7 @@ namespace MeterSystem.Common.Interfaces
     {
         IGenericRepository<T> Repository<T>() where T : BaseEntity;
         Task<int> SaveChangesAsync();
+        Task<List<DetailsDto>> GetCustomerDetailsAsync(DateTime from,
+            DateTime to, string? customerCode = null, string? meterSerial = null);
     }
 }

@@ -105,5 +105,15 @@ namespace MeterSystem.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetCustomerDetailsReportAsync(DateTime from, DateTime to,string? customerCode = null,
+            string? meterSerial = null)
+        {
+            var response = await _contractService.GetCustomerDetailsReportAsync(from, to, customerCode, meterSerial);
+            if (!response.Success)
+                return BadRequest(response.Message);
+            return Ok(response);
+        }
+
     }
 }
