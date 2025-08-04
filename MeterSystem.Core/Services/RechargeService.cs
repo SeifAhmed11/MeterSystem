@@ -41,7 +41,6 @@ namespace MeterSystem.Application.Services
             }
         }
 
-
         public async Task<BaseResponse<bool>> DeleteAsync(Guid id)
         {
             try
@@ -112,6 +111,7 @@ namespace MeterSystem.Application.Services
                 return BaseResponse<RechargeDto>.FailResult($"{ex.Message}");
             }
         }
+
         public async Task<BaseResponse<RechargeDto>> GetLastCharge(string serial)
         {
             try
