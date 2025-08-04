@@ -31,6 +31,15 @@ namespace MeterSystem.API.Controllers
                 return BadRequest(response.Message);
             return Ok(response);
         }
+    
+        [HttpGet("{SerialId}")]
+        public async Task<IActionResult> GetAllRechargeByMeterId(string SerialId)
+        {
+            var response = await _rechargeService.GetAllAsync(r => r.Meter.Serial == SerialId);
+            if (!response.Success)
+                return BadRequest(response.Message);
+            return Ok(response);
+        }
 
         [HttpGet("GetLastCharge/{serial}")]
         public async Task<IActionResult> GetLastCharge(string serial)
