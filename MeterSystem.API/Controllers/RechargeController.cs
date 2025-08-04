@@ -31,11 +31,11 @@ namespace MeterSystem.API.Controllers
                 return BadRequest(response.Message);
             return Ok(response);
         }
-
-        [HttpGet("GetAllRechargeByMeterId")]
-        public async Task<IActionResult> GetAllRechargeByMeterId(Guid meterId)
+    
+        [HttpGet("{SerialId}")]
+        public async Task<IActionResult> GetAllRechargeByMeterId(string SerialId)
         {
-            var response = await _rechargeService.GetByOneAsync(r => r.MeterId == meterId);
+            var response = await _rechargeService.GetAllAsync(r => r.Meter.Serial == SerialId);
             if (!response.Success)
                 return BadRequest(response.Message);
             return Ok(response);
