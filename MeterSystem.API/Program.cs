@@ -1,12 +1,12 @@
 
-using MeterSystem.Infrastructure.Interceptors;
+//using MeterSystem.Infrastructure.Interceptors;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContextPool<MeterSystemDbContext>((ServiceProvider, options) =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    .AddInterceptors(ServiceProvider.GetRequiredService<SoftDeleteInterceptor>()));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    //.AddInterceptors(ServiceProvider.GetRequiredService<SoftDeleteInterceptor>()));
 // Add services to the container. 
 
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

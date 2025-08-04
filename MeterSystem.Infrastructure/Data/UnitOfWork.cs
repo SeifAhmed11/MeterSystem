@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using MeterSystem.Common.Interfaces;
+using MeterSystem.Domain.Base;
 using MeterSystem.Domain.Entities;
 using MeterSystem.Infrastructure.Repositories;
 
@@ -14,7 +15,7 @@ namespace MeterSystem.Infrastructure.Data
             this.dbContext = dbContext;
         }
 
-        public IGenericRepository<T> Repository<T>() where T : class
+        public IGenericRepository<T> Repository<T>() where T : BaseEntity
         {
             var type = typeof(T);
             if (!repositories.ContainsKey(type))

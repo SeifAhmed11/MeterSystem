@@ -8,7 +8,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MeterSystem.Infrastructure.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private readonly MeterSystemDbContext _context;
         private readonly DbSet<T> _dbSet;
@@ -26,6 +26,14 @@ namespace MeterSystem.Infrastructure.Repositories
         public Task DeleteAsync(T entity)
         {
             _dbSet.Remove(entity);
+            return Task.CompletedTask;
+        }
+        public Task SoftDelete(T entity)
+        {
+            entity.IsDeleted = true;
+            entity.UpdatedAt = DateTime.UtcNow;
+            _dbSet.Update(entity);
+            
             return Task.CompletedTask;
         }
 
@@ -52,9 +60,13 @@ namespace MeterSystem.Infrastructure.Repositories
             return await Data.ToListAsync();
         }
 
-        public async Task<T?> GetOneAsync(Expression<Func<T, bool>> filter, bool isTracking = false, string? props = null)
+        public async Task<T?> GetOneAsync(Expression<Func<T, bool>> filter, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
-            var Data = _dbSet.Where(filter);
+            IQueryable<T> Data = _dbSet;
+
+            if (ignoreQueryFilters)
+                Data = Data.IgnoreQueryFilters();
+
             if (isTracking)
                 Data = Data.AsNoTracking();
             if(props is not null)
@@ -64,6 +76,8 @@ namespace MeterSystem.Infrastructure.Repositories
                     Data = Data.Include(item.Trim());
                 }
             }
+
+            Data = _dbSet.Where(filter);
             return await Data.FirstOrDefaultAsync();
         }
 

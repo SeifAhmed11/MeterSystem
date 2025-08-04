@@ -64,7 +64,7 @@ namespace MeterSystem.Application.Services
         {
             try
             {
-                var entities = await _unitOfWork.Repository<Recharge>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props);
+                var entities = await _unitOfWork.Repository<Recharge>().GetAllAsync(filter, isTracking, ignoreQueryFilters, props: "Meter");
                 var dtos = entities.Select(r => r.ToDto()).ToList();
                 return BaseResponse<List<RechargeDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
@@ -74,11 +74,11 @@ namespace MeterSystem.Application.Services
             }
         }
 
-        public async Task<BaseResponse<RechargeDto>> GetByOneAsync(Expression<Func<Recharge, bool>> filter, bool isTracking = false, string? props = null)
+        public async Task<BaseResponse<RechargeDto>> GetByOneAsync(Expression<Func<Recharge, bool>> filter, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {
-                var entity = await _unitOfWork.Repository<Recharge>().GetOneAsync(filter, isTracking, props);
+                var entity = await _unitOfWork.Repository<Recharge>().GetOneAsync(filter, isTracking, ignoreQueryFilters, props);
                 return entity == null
                     ? BaseResponse<RechargeDto>.FailResult(StaticMessages.NotFound)
                     : BaseResponse<RechargeDto>.SuccessResult(entity.ToDto(), StaticMessages.Loaded);
@@ -137,16 +137,16 @@ namespace MeterSystem.Application.Services
             }
         }
 
-        public async Task<BaseResponse<object>> GetByDateRangeAsync(string? serial, DateTime fromDate, DateTime toDate)
+        public async Task<BaseResponse<object>> GetByDate(string? serial, DateTime fromDate, DateTime toDate)
         {
             try
             {
                 DateTime to = toDate.Date.AddDays(1).AddTicks(-1);
 
                 Expression<Func<Recharge, bool>> filter = r =>
-                    r.CreatedAt >= fromDate &&
-                    r.CreatedAt <= to &&
-                    (serial == null || r.Meter.Serial == serial);
+                r.CreatedAt >= fromDate &&
+                r.CreatedAt <= to &&
+                (serial == null || r.Meter.Serial == serial);
 
                 var recharges = await _unitOfWork.Repository<Recharge>()
                     .GetAllAsync(filter, isTracking: false, props: "Meter");

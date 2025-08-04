@@ -87,13 +87,11 @@ namespace MeterSystem.Core.Services
 
                 if (countofCustomerContract == 1)
                 {
-                    await _unitOfWork.Repository<Customer>().DeleteAsync(entity.Customer);
+                    await _unitOfWork.Repository<Customer>().SoftDelete(entity.Customer);
                 }
 
-                await _unitOfWork.Repository<Contract>().DeleteAsync(entity);
-                await _unitOfWork.Repository<Meter>().DeleteAsync(entity.Meter);
-
-                
+                await _unitOfWork.Repository<Contract>().SoftDelete(entity);
+                await _unitOfWork.Repository<Meter>().SoftDelete(entity.Meter);
 
                 await _unitOfWork.SaveChangesAsync();
 
@@ -134,6 +132,19 @@ namespace MeterSystem.Core.Services
             {
                 return BaseResponse<ContractDto>.FailResult($"{ex.Message}");
             }
+        }
+
+        public async Task<BaseResponse<ContractDto>> RecoverContract(Guid id)
+        {
+            var entity = await _unitOfWork.Repository<Contract>().GetOneAsync(filter: c => c.Id == id, ignoreQueryFilters: true, props: "Customer,Meter");
+            if (entity == null)
+            {
+                return BaseResponse<ContractDto>.FailResult(StaticMessages.NotFound);
+            }
+
+            await _unitOfWork.Repository<Contract>().UpdateAsync(entity);
+            await _unitOfWork.SaveChangesAsync();
+            return BaseResponse<ContractDto>.SuccessResult(entity.ToDto());
         }
 
         public async Task<BaseResponse<ContractDto>> UpdateAsync(UpdateContractDto dto)

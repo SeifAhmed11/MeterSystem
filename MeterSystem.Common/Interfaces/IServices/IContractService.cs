@@ -13,5 +13,6 @@ namespace MeterSystem.Common.Interfaces.IServices
         Task<BaseResponse<ContractDto>> CreateAsync(CreateContractDto dto);
         Task<BaseResponse<ContractDto>> UpdateAsync(UpdateContractDto dto);
         Task<BaseResponse<bool>> DeleteAsync(Guid id);
+        Task<BaseResponse<ContractDto>> RecoverContract(Guid id);
     }
 }

@@ -96,6 +96,14 @@ namespace MeterSystem.API.Controllers
             return Ok(response);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> RecoverDeletedContract(Guid id)
+        {
+            var response = await _contractService.RecoverContract(id);
+            if (!response.Success)
+                return BadRequest(response.Message);
+            return Ok(response);
+        }
 
     }
 }

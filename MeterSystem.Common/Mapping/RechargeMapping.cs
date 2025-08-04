@@ -15,7 +15,7 @@ namespace MeterSystem.Core.Mapping
                 MeterId = recharge.MeterId,
                 CreatedAt = recharge.CreatedAt,
                 UpdatedAt = recharge.UpdatedAt,
-                Meter = recharge.Meter?.ToDto()
+                Meter = recharge.Meter.ToDto()
             };
         }
 

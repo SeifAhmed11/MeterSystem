@@ -36,11 +36,11 @@ namespace MeterSystem.Core.Services
             }
         }
 
-        public async Task<BaseResponse<MeterDto>> GetOneAsync(Expression<Func<Meter, bool>> filter, bool isTracking = false, string? props = null)
+        public async Task<BaseResponse<MeterDto>> GetOneAsync(Expression<Func<Meter, bool>> filter, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             try
             {
-                var customer = await _unitOfWork.Repository<Meter>().GetOneAsync(filter, isTracking, props);
+                var customer = await _unitOfWork.Repository<Meter>().GetOneAsync(filter, isTracking, ignoreQueryFilters, props);
                 if (customer == null)
                 {
                     return BaseResponse<MeterDto>.FailResult(StaticMessages.NotFound);

@@ -14,11 +14,11 @@ namespace MeterSystem.Common.Interfaces.IServices
     public interface IRechargeService
     {
         Task<BaseResponse<List<RechargeDto>>> GetAllAsync(Expression<Func<Recharge, bool>>? filter = null, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null);
-        Task<BaseResponse<RechargeDto>> GetByOneAsync(Expression<Func<Recharge, bool>> filter, bool isTracking = false, string? props = null);
+        Task<BaseResponse<RechargeDto>> GetByOneAsync(Expression<Func<Recharge, bool>> filter, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null);
         Task<BaseResponse<RechargeDto>> CreateAsync(CreateRechargeDto dto);
         Task<BaseResponse<RechargeDto>> UpdateAsync(UpdateRechargeDto dto);
         Task<BaseResponse<bool>> DeleteAsync(Guid id);
         Task<BaseResponse<RechargeDto>> GetLastCharge(string serial);
-        Task<BaseResponse<Object>> GetByDateRangeAsync(string? serial, DateTime fromDate, DateTime toDate);
+        Task<BaseResponse<Object>> GetByDate(string? serial, DateTime fromDate, DateTime toDate);
     }
 }
