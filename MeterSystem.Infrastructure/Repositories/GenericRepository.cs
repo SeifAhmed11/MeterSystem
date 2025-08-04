@@ -37,6 +37,15 @@ namespace MeterSystem.Infrastructure.Repositories
             return Task.CompletedTask;
         }
 
+        public Task Recover(T entity)
+        {
+            entity.IsDeleted = false;
+            entity.UpdatedAt = DateTime.UtcNow;
+            _dbSet.Update(entity);
+
+            return Task.CompletedTask;
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter, bool isTracking = false, bool ignoreQueryFilters = false, string? props = null)
         {
             IQueryable<T> Data = _dbSet;
@@ -77,7 +86,7 @@ namespace MeterSystem.Infrastructure.Repositories
                 }
             }
 
-            Data = _dbSet.Where(filter);
+            Data = Data.Where(filter);
             return await Data.FirstOrDefaultAsync();
         }
 

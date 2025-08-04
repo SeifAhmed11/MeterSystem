@@ -11,6 +11,7 @@ namespace MeterSystem.Common.Interfaces
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task SoftDelete(T entity);
+        Task Recover(T entity);
         Task<string> GetLastCustomerCodeAsync();
     }
 }

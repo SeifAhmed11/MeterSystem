@@ -142,7 +142,9 @@ namespace MeterSystem.Core.Services
                 return BaseResponse<ContractDto>.FailResult(StaticMessages.NotFound);
             }
 
-            await _unitOfWork.Repository<Contract>().UpdateAsync(entity);
+            await _unitOfWork.Repository<Contract>().Recover(entity);
+            await _unitOfWork.Repository<Customer>().Recover(entity.Customer);
+            await _unitOfWork.Repository<Meter>().Recover(entity.Meter);
             await _unitOfWork.SaveChangesAsync();
             return BaseResponse<ContractDto>.SuccessResult(entity.ToDto());
         }
