@@ -18,7 +18,7 @@ namespace MeterSystem.Infrastructure.Data
             this.dbContext = dbContext;
         }
 
-        public async Task<List<DetailsDto>> GetCustomerDetailsAsync(DateTime from, DateTime to  , string? customerCode = null, string? meterSerial = null , params object[] objects)
+        public async Task<List<DetailsDto>> GetCustomerDetailsAsync(DateTime from, DateTime to  , string? customerCode = null, string? meterSerial = null)
         {
             var sql = "EXEC dbo.customer_details @from, @to, @customer_code, @meter_serial";
 

@@ -26,4 +26,8 @@
     <ProjectReference Include="..\MeterSystem.Infrastructure\MeterSystem.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Procedures\" />
+  </ItemGroup>
+
 </Project>
