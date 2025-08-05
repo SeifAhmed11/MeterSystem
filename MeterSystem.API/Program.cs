@@ -1,42 +1,45 @@
 
-//using MeterSystem.Infrastructure.Interceptors;
-
-using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//  Serilog 
+Log.Logger = new LoggerConfiguration()
+    //.MinimumLevel.Debug()
+    .WriteTo.Console()
+    //.WriteTo.Seq("http://localhost:5341")
+    .Enrich.FromLogContext()
+    .CreateLogger();
 
-builder.Services.AddDbContextPool<MeterSystemDbContext>((ServiceProvider, options) =>
+builder.Host.UseSerilog();
+
+
+Log.Information("Starting up the application...");
+
+// Database setup
+builder.Services.AddDbContextPool<MeterSystemDbContext>((serviceProvider, options) =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-    //.AddInterceptors(ServiceProvider.GetRequiredService<SoftDeleteInterceptor>()));
-// Add services to the container. 
+//.AddInterceptors(serviceProvider.GetRequiredService<SoftDeleteInterceptor>()));
 
-//builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
+// Dependency Injection for Core and Infrastructure layers
 builder.Services.RegisterInfrastructure();
 builder.Services.RegisterCore();
 
-
+// Controllers & Swagger
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// HTTP request pipeline
+ if (app.Environment.IsDevelopment())
+ {
+     app.UseSwagger();
+     app.UseSwaggerUI();
+ }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+ app.UseAuthorization();
+ app.MapControllers();
 
 app.Run();
