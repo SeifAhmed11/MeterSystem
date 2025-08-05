@@ -15,6 +15,7 @@ namespace MeterSystem.Core
             services.AddScoped<IMeterService, MeterService>();
             services.AddScoped<IRechargeService, RechargeService>();
             services.AddScoped<IPdfGeneratorService, PdfGeneratorService>();
+            services.AddScoped<IExcelServices, ExcelServices>();
             //services.AddScoped<IConsumptionService, ConsumptionService>();
         }
     }

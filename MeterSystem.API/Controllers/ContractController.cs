@@ -3,6 +3,7 @@ using iTextSharp.text.pdf;
 using MeterSystem.Common.DTOs.Contract;
 using MeterSystem.Common.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 
 namespace MeterSystem.API.Controllers
 {
@@ -12,9 +13,11 @@ namespace MeterSystem.API.Controllers
     {
         private readonly IContractService _contractService;
         private readonly IPdfGeneratorService _pdfGeneratorService;
-        public ContractController(IContractService contractService, IPdfGeneratorService pdfGeneratorService)
+        private readonly IExcelServices _excelExportService;
+        public ContractController(IContractService contractService, IPdfGeneratorService pdfGeneratorService, IExcelServices excelExportService)
         {
             _contractService = contractService;
+            _excelExportService = excelExportService;
             _pdfGeneratorService = pdfGeneratorService;
         }
 
@@ -131,6 +134,19 @@ namespace MeterSystem.API.Controllers
 
             return File(pdfBytes, "application/pdf", "CustomerDetailsReport.pdf");
 
+        }
+
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportCustomerDetailsToExcel([FromQuery] DateTime from, [FromQuery] DateTime to, [FromQuery] string? customerCode = null, [FromQuery] string? meterSerial = null)
+        {
+            var response = await _contractService.GetCustomerDetailsReportAsync(from, to, customerCode, meterSerial);
+            if (!response.Success || response.Data == null || response.Data.Count == 0)
+                return BadRequest("No data available to export.");
+
+            var excelBytes = _excelExportService.GenerateExcel(response.Data, "Customer Details");
+            var stream = new MemoryStream(excelBytes);
+
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"CustomerDetails_{DateTime.Now:yyyyMMddHHmmss}.xlsx");
         }
     }
 }
