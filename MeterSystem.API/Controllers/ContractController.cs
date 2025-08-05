@@ -122,31 +122,37 @@ namespace MeterSystem.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("export-pdf-itextsharp")]
-        public async Task<IActionResult> ExportPdfWithITextSharp(DateTime from, DateTime to, string? customerCode = null, string? meterSerial = null)
-        {
-            var response = await _contractService.GetCustomerDetailsReportAsync(from, to, customerCode, meterSerial);
-
-            if (!response.Success || response.Data == null || response.Data.Count == 0)
-                return BadRequest("No data found to generate PDF.");
-
-            byte[] pdfBytes = _pdfGeneratorService.GeneratePdf(response.Data, "Customer Details Report");
-
-            return File(pdfBytes, "application/pdf", "CustomerDetailsReport.pdf");
-
-        }
-
         [HttpGet("export")]
-        public async Task<IActionResult> ExportCustomerDetailsToExcel([FromQuery] DateTime from, [FromQuery] DateTime to, [FromQuery] string? customerCode = null, [FromQuery] string? meterSerial = null)
+        public async Task<IActionResult> ExportCustomerDetails([FromQuery] DateTime from, [FromQuery] DateTime to,
+        [FromQuery] string? customerCode = null, [FromQuery] string? meterSerial = null, [FromQuery] string type = "pdf")
         {
             var response = await _contractService.GetCustomerDetailsReportAsync(from, to, customerCode, meterSerial);
+
             if (!response.Success || response.Data == null || response.Data.Count == 0)
-                return BadRequest("No data available to export.");
+                return BadRequest("No data found to export.");
+            
+            var fileNameBase = $"CustomerDetails_{DateTime.Now:yyyyMMddHHmmss}";
 
-            var excelBytes = _excelExportService.GenerateExcel(response.Data, "Customer Details");
-            var stream = new MemoryStream(excelBytes);
+            switch (type.ToLower())
+            {
+                case "excel":
+                    var excelBytes = _excelExportService.GenerateExcel(response.Data, "Customer Details");
+                    return File(
+                        excelBytes,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        $"{fileNameBase}.xlsx");
 
-            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"CustomerDetails_{DateTime.Now:yyyyMMddHHmmss}.xlsx");
+                case "pdf":
+                    var pdfBytes = _pdfGeneratorService.GeneratePdf(response.Data, "Customer Details Report");
+                    return File(
+                        pdfBytes,
+                        "application/pdf",
+                        $"{fileNameBase}.pdf"
+                    );
+
+                default:
+                    return BadRequest("Invalid export type. Please specify 'pdf' or 'excel'.");
+            }
         }
     }
 }
