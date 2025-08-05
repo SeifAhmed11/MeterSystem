@@ -6,6 +6,7 @@ using MeterSystem.Common.Interfaces.IServices;
 using MeterSystem.Common.Responses;
 using MeterSystem.Core.Mapping;
 using MeterSystem.Domain.Entities;
+using Microsoft.Data.SqlClient;
 
 namespace MeterSystem.Core.Services
 {
@@ -177,7 +178,14 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var result = await _unitOfWork.GetCustomerDetailsAsync(from, to, customerCode, meterSerial);
+                var parameters = new[]
+                {
+                    new SqlParameter("@from", from),
+                    new SqlParameter("@to", to),
+                    new SqlParameter("@customer_code", (object?)customerCode ?? DBNull.Value),
+                    new SqlParameter("@meter_serial", (object?)meterSerial ?? DBNull.Value)
+                };
+                var result = await _unitOfWork.Repository<Contract>().GetCustomerDetailsAsync<DetailsDto>("customer_details", parameters);
                 return BaseResponse<List<DetailsDto>>.SuccessResult(result, StaticMessages.Loaded);
             }
             catch(Exception ex)

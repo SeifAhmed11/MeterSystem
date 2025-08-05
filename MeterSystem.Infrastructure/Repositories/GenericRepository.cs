@@ -113,5 +113,15 @@ namespace MeterSystem.Infrastructure.Repositories
 
             return lastCustomer ?? "0000";
         }
+
+        public async Task<List<TEntity>> GetCustomerDetailsAsync<TEntity>(string storedProceduresName, params SqlParameter[] parameters)
+            where TEntity : class
+        {
+            var sql = $"EXEC {storedProceduresName} {string.Join(", ", parameters.Select(p => p.ParameterName))}";
+            return await _context.Set<TEntity>()
+                .FromSqlRaw(sql, parameters)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MeterSystem.Common.DTOs.Contract;
 using MeterSystem.Domain.Base;
+using Microsoft.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace MeterSystem.Common.Interfaces
@@ -14,5 +15,7 @@ namespace MeterSystem.Common.Interfaces
         Task SoftDelete(T entity);
         Task Recover(T entity);
         Task<string> GetLastCustomerCodeAsync();
+        Task<List<TEntity>> GetCustomerDetailsAsync<TEntity>(string storedProceduresName, params SqlParameter[] parameters)
+            where TEntity : class;
     }
 }
