@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 //  Serilog 
 Log.Logger = new LoggerConfiguration()
     //.MinimumLevel.Debug()
-    .WriteTo.Console()
+    //.WriteTo.Console()
     //.WriteTo.Seq("http://localhost:5341")
     .Enrich.FromLogContext()
     .CreateLogger();
@@ -39,7 +39,10 @@ var app = builder.Build();
  }
 
 app.UseHttpsRedirection();
- app.UseAuthorization();
- app.MapControllers();
+app.UseAuthorization();
+
+app.UseMiddleware<RequestTimingMiddleware>();
+
+app.MapControllers();
 
 app.Run();
