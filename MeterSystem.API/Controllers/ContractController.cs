@@ -1,4 +1,6 @@
-﻿using MeterSystem.Common.DTOs.Contract;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using MeterSystem.Common.DTOs.Contract;
 using MeterSystem.Common.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +11,11 @@ namespace MeterSystem.API.Controllers
     public class ContractController : ControllerBase
     {
         private readonly IContractService _contractService;
-        public ContractController(IContractService contractService)
+        private readonly IPdfGeneratorService _pdfGeneratorService;
+        public ContractController(IContractService contractService, IPdfGeneratorService pdfGeneratorService)
         {
             _contractService = contractService;
+            _pdfGeneratorService = pdfGeneratorService;
         }
 
         [HttpPost]
@@ -115,5 +119,18 @@ namespace MeterSystem.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("export-pdf-itextsharp")]
+        public async Task<IActionResult> ExportPdfWithITextSharp(DateTime from, DateTime to, string? customerCode = null, string? meterSerial = null)
+        {
+            var response = await _contractService.GetCustomerDetailsReportAsync(from, to, customerCode, meterSerial);
+
+            if (!response.Success || response.Data == null || response.Data.Count == 0)
+                return BadRequest("No data found to generate PDF.");
+
+            byte[] pdfBytes = _pdfGeneratorService.GeneratePdf(response.Data, "Customer Details Report");
+
+            return File(pdfBytes, "application/pdf", "CustomerDetailsReport.pdf");
+
+        }
     }
 }

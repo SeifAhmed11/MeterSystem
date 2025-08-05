@@ -33,6 +33,8 @@ namespace MeterSystem.Infrastructure.Data
             modelBuilder.Entity<Recharge>().HasQueryFilter(b => b.IsDeleted == false);
             modelBuilder.Entity<Consumption>().HasQueryFilter(b => b.IsDeleted == false);
 
+
+
             base.OnModelCreating(modelBuilder);
         }
 
