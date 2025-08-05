@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MeterSystem.Common.Interfaces;
+﻿using System.Drawing;
 using MeterSystem.Common.Interfaces.IServices;
 using OfficeOpenXml;
-using System.ComponentModel;
 using OfficeOpenXml.Style;
-using System.Drawing;
 
 namespace MeterSystem.Core.Services
 {
@@ -45,8 +36,26 @@ namespace MeterSystem.Core.Services
                 var item = data[row];
                 for (int col = 0; col < properties.Length; col++)
                 {
+                    var property = properties[col];
+                    var value = property.GetValue(item);
                     var cell = worksheet.Cells[row + 2, col + 1];
-                    cell.Value = properties[col].GetValue(item);
+
+                    if (property.PropertyType == typeof(DateTime?) || property.PropertyType == typeof(DateTime))
+                    {
+                        if (value != null)
+                        {
+                            cell.Value = ((DateTime)value).ToString("yyyy/MM/dd"); 
+                        }
+                        else
+                        {
+                            cell.Value = ""; 
+                        }
+                    }
+                    else
+                    {
+                        cell.Value = value;
+                    }
+
                     cell.Style.Font.Size = 11;
                     cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     cell.Style.Border.BorderAround(ExcelBorderStyle.Hair);
@@ -71,5 +80,6 @@ namespace MeterSystem.Core.Services
 
             return package.GetAsByteArray();
         }
+
     }
 }
