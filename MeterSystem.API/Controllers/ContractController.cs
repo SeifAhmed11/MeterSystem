@@ -1,9 +1,7 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using MeterSystem.Common.DTOs.Contract;
+﻿using MeterSystem.Common.DTOs.Contract;
+using MeterSystem.Common.Enum;
 using MeterSystem.Common.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
-using OfficeOpenXml;
 
 namespace MeterSystem.API.Controllers
 {
@@ -11,14 +9,17 @@ namespace MeterSystem.API.Controllers
     [ApiController]
     public class ContractController : ControllerBase
     {
+        private readonly ILogger<ContractController> _logger;
         private readonly IContractService _contractService;
         private readonly IPdfGeneratorService _pdfGeneratorService;
         private readonly IExcelServices _excelExportService;
-        public ContractController(IContractService contractService, IPdfGeneratorService pdfGeneratorService, IExcelServices excelExportService)
+        public ContractController(IContractService contractService, IPdfGeneratorService pdfGeneratorService,
+            IExcelServices excelExportService, ILogger<ContractController> logger)
         {
             _contractService = contractService;
             _excelExportService = excelExportService;
             _pdfGeneratorService = pdfGeneratorService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -113,46 +114,44 @@ namespace MeterSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCustomerDetailsReportAsync(DateTime from, DateTime to,string? customerCode = null,
-            string? meterSerial = null)
+        public async Task<IActionResult> GetCustomerDetailsReportAsync([FromQuery] ContractFilterDto dto)
         {
-            var response = await _contractService.GetCustomerDetailsReportAsync(from, to, customerCode, meterSerial);
+            var response = await _contractService.GetCustomerDetailsReportAsync(dto.from, dto.to, dto.customerCode, dto.meterSerial);
             if (!response.Success)
                 return BadRequest(response.Message);
             return Ok(response);
         }
 
         [HttpGet("export")]
-        public async Task<IActionResult> ExportCustomerDetails([FromQuery] DateTime from, [FromQuery] DateTime to,
-        [FromQuery] string? customerCode = null, [FromQuery] string? meterSerial = null, [FromQuery] string type = "pdf")
+        public async Task<IActionResult> ExportCustomerDetails([FromQuery] ContractPdfFilter dto)
         {
-            var response = await _contractService.GetCustomerDetailsReportAsync(from, to, customerCode, meterSerial);
+            _logger.LogInformation("Filters used: CustomerCode = {CustomerCode}, MeterSerial = {MeterSerial}", dto.customerCode ?? "N/A", dto.meterSerial ?? "N/A");
+
+            var response = await _contractService.GetCustomerDetailsReportAsync(dto.from, dto.to, dto.customerCode, dto.meterSerial);
 
             if (!response.Success || response.Data == null || response.Data.Count == 0)
-                return BadRequest("No data found to export.");
-            
-            var fileNameBase = $"CustomerDetails_{DateTime.Now:yyyyMMddHHmmss}";
-
-            switch (type.ToLower())
             {
-                case "excel":
-                    var excelBytes = _excelExportService.GenerateExcel(response.Data, "Customer Details");
-                    return File(
-                        excelBytes,
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        $"{fileNameBase}.xlsx");
-
-                case "pdf":
-                    var pdfBytes = _pdfGeneratorService.GeneratePdf(response.Data, "Customer Details Report");
-                    return File(
-                        pdfBytes,
-                        "application/pdf",
-                        $"{fileNameBase}.pdf"
-                    );
-
-                default:
-                    return BadRequest("Invalid export type. Please specify 'pdf' or 'excel'.");
+                _logger.LogWarning("Export failed: no data found for the given filters.");
+                return BadRequest(response.Message);
             }
+
+            var fileNameBase = $"CustomerDetails_{DateTime.Now:yyyyMMddHHmmss}";
+            
+            if (dto.type == (int)ExportType.PDF)
+            {
+                var pdfBytes = _pdfGeneratorService.GeneratePdf(response.Data, fileNameBase);
+                return File(pdfBytes, "application/pdf", $"{fileNameBase}.pdf");
+            }
+            else if (dto.type == (int)ExportType.EXCEL)
+            {
+                var excelBytes = _excelExportService.GenerateExcel(response.Data, fileNameBase);
+                return File(
+                        excelBytes,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{fileNameBase}.xlsx");
+            }
+
+            _logger.LogError("Unsupported export type fallback triggered.");
+            return BadRequest(response.Message);
         }
     }
 }
