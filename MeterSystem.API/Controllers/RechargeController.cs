@@ -41,6 +41,8 @@ namespace MeterSystem.API.Controllers
 
             var response = await _rechargeService.GetAllAsync();
 
+            await Task.Delay(6000); 
+
             if (!response.Success)
             {
                 _logger.LogWarning("Failed to retrieve all recharges: {Message}", response.Message);
