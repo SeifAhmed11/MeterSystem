@@ -7,16 +7,19 @@ using MeterSystem.Common.Responses;
 using MeterSystem.Core.Mapping;
 using MeterSystem.Domain.Entities;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MeterSystem.Core.Services
 {
     public class ContractService : IContractService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMemoryCacheService _cache;
 
-        public ContractService(IUnitOfWork unitOfWork)
+        public ContractService(IUnitOfWork unitOfWork, IMemoryCacheService cache)
         {
             _unitOfWork = unitOfWork;
+            _cache = cache;
         }
 
         public async Task<BaseResponse<ContractDto>> CreateAsync(CreateContractDto dto)
@@ -108,10 +111,22 @@ namespace MeterSystem.Core.Services
         {
             try
             {
-                var entities = await _unitOfWork.Repository<Contract>().GetAllAsync(filter, isTracking:true, ignoreQueryFilters, props: "Meter,Customer");
+                var cacheKey = $"contracts_{filter}_{isTracking}_{ignoreQueryFilters}_{props}";
+                var cachedContracts = _cache.Get<List<ContractDto>>(cacheKey);
+                
+                if (cachedContracts != null)
+                {
+                    return BaseResponse<List<ContractDto>>.SuccessResult(cachedContracts, StaticMessages.Loaded);
+                }
+
+                var entities = await _unitOfWork.Repository<Contract>()
+                    .GetAllAsync(filter, isTracking:true, ignoreQueryFilters, props: "Meter,Customer");
                 if (entities == null || !entities.Any())
                     return BaseResponse<List<ContractDto>>.FailResult(StaticMessages.NotFound);
                 var dtos = entities.Select(x => x.ToDto()).ToList();
+
+                _cache.Set(cacheKey, dtos, TimeSpan.FromSeconds(30));
+
                 return BaseResponse<List<ContractDto>>.SuccessResult(dtos, StaticMessages.Loaded);
             }
             catch (Exception ex)
