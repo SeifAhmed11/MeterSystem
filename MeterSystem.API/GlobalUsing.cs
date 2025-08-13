@@ -4,3 +4,5 @@ global using MeterSystem.Infrastructure.Data;
 global using Microsoft.EntityFrameworkCore;
 global using MeterSystem.Infrastructure;
 global using MeterSystem.Core;
+global using Serilog;
+global using OfficeOpenXml;
