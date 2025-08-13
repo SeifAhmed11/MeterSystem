@@ -41,7 +41,7 @@ namespace MeterSystem.API.Controllers
 
             var response = await _rechargeService.GetAllAsync();
 
-            await Task.Delay(6000); 
+            //await Task.Delay(6000);   for tesiting RequestTimingMiddleware
 
             if (!response.Success)
             {
