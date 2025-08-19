@@ -15,7 +15,6 @@ namespace MeterSystem.Infrastructure.Seeders
             if (!await roleManager.RoleExistsAsync(UserRoles.SuperAdmin.ToString()))
                 await roleManager.CreateAsync(new IdentityRole<Guid>(UserRoles.SuperAdmin.ToString()));
 
-            // Create user
             var superAdmin = await userManager.FindByEmailAsync(superAdminEmail);
             if (superAdmin == null)
             {

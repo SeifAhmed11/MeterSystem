@@ -21,11 +21,21 @@ namespace MeterSystem.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto request)
         {
-            var result = await _userService.login(request);
-            if (result == null)
-                return Unauthorized("Invalid credentials");
+            var response = await _userService.login(request);
+            if (!response.Success)
+                return Unauthorized(response.Message);
 
-            return Ok(result);
+            return Ok(response);
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto request)
+        {
+            var response = await _userService.Register(request);
+            if(!response.Success)
+                return BadRequest(response.Message);
+
+            return Ok(response);
         }
 
     }
