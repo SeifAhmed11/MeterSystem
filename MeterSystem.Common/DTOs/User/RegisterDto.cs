@@ -1,4 +1,4 @@
-﻿using MeterSystem.Common.Enum;
+﻿ 
 
 namespace MeterSystem.Common.DTOs.User
 {

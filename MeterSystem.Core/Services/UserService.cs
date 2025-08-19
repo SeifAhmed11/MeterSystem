@@ -1,5 +1,4 @@
-﻿
-using MeterSystem.Common.Constants;
+﻿using MeterSystem.Common.Constants;
 using MeterSystem.Common.DTOs.User;
 using MeterSystem.Common.Enum;
 using MeterSystem.Common.Interfaces.IServices;
@@ -29,16 +28,16 @@ namespace MeterSystem.Core.Services
             _jwtTokenService = jwtTokenService;
             _cache = cache;
         }
-        public async Task<BaseResponse<LoginResponse>?> login(LoginDto dto)
+        public async Task<BaseResponse<LoginResponse>> login(LoginDto dto)
         {
             var user = await _userManager.FindByEmailAsync(dto.Email);
 
             if (user == null)
                 return BaseResponse<LoginResponse>.FailResult(StaticMessages.NotFound);
 
-            else if(user.EmailConfirmed == false)
+            else if (user.EmailConfirmed == false)
             {
-                return BaseResponse<LoginResponse>.FailResult(StaticMessages.Pending);
+                return BaseResponse<LoginResponse>.FailResult(StaticMessages.Invalid);
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
@@ -94,7 +93,6 @@ namespace MeterSystem.Core.Services
             {
                 return BaseResponse<string>.FailResult(StaticMessages.AlreadyExists);
             }
-
             await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
             await _userManager.UpdateAsync(user);
 
@@ -108,5 +106,42 @@ namespace MeterSystem.Core.Services
 
             return BaseResponse<string>.SuccessResult(StaticMessages.Created, token);
         }
+
+        public async Task<IReadOnlyList<PendingUserDto>> GetUnconfirmedAdminsAsync()
+        {
+            var admins = await _userManager.GetUsersInRoleAsync(nameof(UserRoles.Admin));
+
+            var pending = admins
+                .Where(u => !u.EmailConfirmed)
+                .Select(u => new PendingUserDto(
+                    u.UserName,
+                    u.Email,
+                    u.EmailConfirmed
+                ))
+                .ToList();
+
+            return pending;
+        }
+
+
+        public async Task<BaseResponse<string>> ConfirmAdminEmailBySuperAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user is null) return BaseResponse<string>.FailResult($"User {StaticMessages.NotFound}");
+
+            if (!await _userManager.IsInRoleAsync(user, nameof(UserRoles.Admin)))
+                return BaseResponse<string>.FailResult($"User {StaticMessages.Invalid}");
+
+            if (user.EmailConfirmed) return BaseResponse<string>.SuccessResult(StaticMessages.Updated);
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (!result.Succeeded)
+            {
+                return BaseResponse<string>.FailResult(StaticMessages.Invalid);
+            }
+            return BaseResponse<string>.SuccessResult(StaticMessages.Updated);
+        }
+
     }
 }
