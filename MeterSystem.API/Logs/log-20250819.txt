@@ -667,3 +667,30 @@ WHERE [a].[RoleId] = @__role_Id_0
 2025-08-19 12:54:12 [INF] Executed action MeterSystem.API.Controllers.UserController.GetPendingAdmins (MeterSystem.API) in 176.8598ms
 2025-08-19 12:54:12 [INF] Executed endpoint 'MeterSystem.API.Controllers.UserController.GetPendingAdmins (MeterSystem.API)'
 2025-08-19 12:54:12 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/User/pending-admins - 200 null application/json; charset=utf-8 340.6244ms
+2025-08-19 13:50:57 [INF] User profile is available. Using 'C:\Users\ACS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-19 13:50:58 [WRN] No store type was specified for the decimal property 'Last_Recharge_Amount' on entity type 'DetailsDto'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-08-19 13:50:58 [WRN] No store type was specified for the decimal property 'Total_Amount' on entity type 'DetailsDto'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-08-19 13:50:59 [INF] Executed DbCommand (97ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-08-19 13:50:59 [INF] Executed DbCommand (8ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-08-19 13:50:59 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-08-19 13:50:59 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UpdatedAt], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-08-19 13:51:00 [INF] Now listening on: http://localhost:5000
+2025-08-19 13:51:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-19 13:51:00 [INF] Hosting environment: Development
+2025-08-19 13:51:00 [INF] Content root path: D:\MeterSystem\MeterSystem\MeterSystem.API
+2025-08-19 13:51:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html - null null
+2025-08-19 13:51:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/index.html - 200 null text/html;charset=utf-8 174.0119ms
+2025-08-19 13:51:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - null null
+2025-08-19 13:51:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 167.8445ms
