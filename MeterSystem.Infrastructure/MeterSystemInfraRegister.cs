@@ -52,6 +52,13 @@ namespace MeterSystem.Infrastructure
             services.AddScoped<RoleSeeder>();
             services.AddScoped<SeedSuperAdmin>();
             //services.AddSingleton<SoftDeleteInterceptor>();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379"; 
+                options.InstanceName = "MeterSystem_";    
+            });
+
         }
     }
 }

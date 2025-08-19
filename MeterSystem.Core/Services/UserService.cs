@@ -7,6 +7,8 @@ using MeterSystem.Common.Mapping;
 using MeterSystem.Common.Responses;
 using MeterSystem.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
 
 namespace MeterSystem.Core.Services
 {
@@ -15,15 +17,17 @@ namespace MeterSystem.Core.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IJwtTokenService _jwtTokenService;
-
+        private readonly IDistributedCache _cache;
         public UserService(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IJwtTokenService jwtTokenService)
+            IJwtTokenService jwtTokenService,
+            IDistributedCache cache)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtTokenService = jwtTokenService;
+            _cache = cache;
         }
         public async Task<BaseResponse<LoginResponse>?> login(LoginDto dto)
         {
@@ -41,8 +45,28 @@ namespace MeterSystem.Core.Services
             if (!result.Succeeded)
                 return BaseResponse<LoginResponse>.FailResult(StaticMessages.Invalid);
 
+            var cacheKey = $"roles_{user.Id}";
+            var rolesJson = await _cache.GetStringAsync(cacheKey);
+            List<string> roles;
 
-            var roles = await _userManager.GetRolesAsync(user);
+            if (string.IsNullOrEmpty(rolesJson))
+            {
+                // Fetch roles from DB
+                roles = (await _userManager.GetRolesAsync(user)).ToList();
+
+                // Store in Redis for 30 min
+                await _cache.SetStringAsync(cacheKey,
+                 JsonSerializer.Serialize(roles),
+                 new DistributedCacheEntryOptions
+                 {
+                     AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+                 });
+            }
+            else
+            {
+             
+                roles = JsonSerializer.Deserialize<List<string>>(rolesJson)!;
+            }
             var token = _jwtTokenService.GenerateToken(user, roles);
 
             var response = new LoginResponse
@@ -68,13 +92,10 @@ namespace MeterSystem.Core.Services
 
             if (!result.Succeeded)
             {
-                throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+                return BaseResponse<string>.FailResult(StaticMessages.AlreadyExists);
             }
 
-            if (dto.Role == UserRoles.Admin)
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
-            }
+            await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
             await _userManager.UpdateAsync(user);
 
             if (!user.EmailConfirmed)
