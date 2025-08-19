@@ -1,11 +1,13 @@
 ﻿using MeterSystem.Common.DTOs.Contract;
 using MeterSystem.Domain.Entities;
 using MeterSystem.Infrastructure.Configurations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeterSystem.Infrastructure.Data
 {
-    public class MeterSystemDbContext : DbContext
+    public class MeterSystemDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
 
         public MeterSystemDbContext(DbContextOptions<MeterSystemDbContext> options) : base(options)

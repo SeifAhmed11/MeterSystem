@@ -1,4 +1,7 @@
 
+using MeterSystem.Domain.Entities;
+using MeterSystem.Infrastructure.Seeders;
+using Microsoft.AspNetCore.Identity;
 using OfficeOpenXml;
 using Serilog;
 
@@ -37,7 +40,7 @@ builder.Services.AddDbContextPool<MeterSystemDbContext>((serviceProvider, option
 //.AddInterceptors(serviceProvider.GetRequiredService<SoftDeleteInterceptor>()));
 
 // Dependency Injection for Core and Infrastructure layers
-builder.Services.RegisterInfrastructure();
+builder.Services.RegisterInfrastructure(builder.Configuration);
 builder.Services.RegisterCore();
 
 // Controllers & Swagger
@@ -47,16 +50,26 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+    await RoleSeeder.SeedRolesAsync(roleManager);
+    await SeedSuperAdmin.SeederSuperAdmin(userManager, roleManager);
+}
+
 // HTTP request pipeline
- if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
  {
      app.UseSwagger();
      app.UseSwaggerUI();
  }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseMiddleware<RequestTimingMiddleware>();
 
 app.MapControllers();

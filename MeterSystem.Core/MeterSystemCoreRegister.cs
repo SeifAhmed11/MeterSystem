@@ -18,6 +18,8 @@ namespace MeterSystem.Core
             services.AddScoped<IExcelServices, ExcelServices>();
             services.AddMemoryCache();
             services.AddScoped<IMemoryCacheService, MemoryCacheService>();
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
+            services.AddScoped<IUserService, UserService>();
 
             //services.AddScoped<IConsumptionService, ConsumptionService>();
         }
