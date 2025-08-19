@@ -1,4 +1,4 @@
-﻿using MeterSystem.Common.Enum;
+﻿ 
 
 namespace MeterSystem.Common.DTOs.User
 {
@@ -8,6 +8,6 @@ namespace MeterSystem.Common.DTOs.User
         public string Password { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string NationalId { get; set; } = string.Empty;
-        public UserRoles Role { get; set; } = UserRoles.Admin;
+ 
     }
 }

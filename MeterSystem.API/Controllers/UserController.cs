@@ -45,6 +45,7 @@ namespace MeterSystem.API.Controllers
 
 
         [HttpGet("pending-admins")]
+        [Authorize(Roles = nameof(UserRoles.SuperAdmin))]
         public async Task<ActionResult<IReadOnlyList<PendingUserDto>>> GetPendingAdmins()
         {
             var list = await _userService.GetUnconfirmedAdminsAsync();

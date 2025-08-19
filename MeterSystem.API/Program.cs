@@ -4,6 +4,8 @@ using MeterSystem.Infrastructure.Seeders;
 using Microsoft.AspNetCore.Identity;
 using OfficeOpenXml;
 using Serilog;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -46,7 +48,34 @@ builder.Services.RegisterCore();
 // Controllers & Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+	options.SwaggerDoc("v1", new OpenApiInfo { Title = "MeterSystem API", Version = "v1" });
+
+	var securityScheme = new OpenApiSecurityScheme
+	{
+		Name = "Authorization",
+		Description = "Enter JWT token",
+		In = ParameterLocation.Header,
+		Type = SecuritySchemeType.Http,
+		Scheme = "bearer",
+		BearerFormat = "JWT",
+		Reference = new OpenApiReference
+		{
+			Type = ReferenceType.SecurityScheme,
+			Id = "Bearer"
+		}
+	};
+
+	options.AddSecurityDefinition("Bearer", securityScheme);
+	options.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		{
+			securityScheme,
+			new string[] { }
+		}
+	});
+});
 
 var app = builder.Build();
 
