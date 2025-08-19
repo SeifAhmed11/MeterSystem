@@ -31,9 +31,9 @@ namespace MeterSystem.Core.Services
             if (user == null)
                 return BaseResponse<LoginResponse>.FailResult(StaticMessages.NotFound);
 
-            else if(user.EmailConfirmed == false)
+            else if (user.EmailConfirmed == false)
             {
-                return BaseResponse<LoginResponse>.FailResult(StaticMessages.Pending);
+                return BaseResponse<LoginResponse>.FailResult(StaticMessages.Invalid);
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
