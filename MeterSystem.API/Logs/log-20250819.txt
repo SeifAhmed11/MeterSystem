@@ -873,3 +873,67 @@ WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
 2025-08-19 13:48:25 [INF] Executed action MeterSystem.API.Controllers.UserController.Login (MeterSystem.API) in 12.4244ms
 2025-08-19 13:48:25 [INF] Executed endpoint 'MeterSystem.API.Controllers.UserController.Login (MeterSystem.API)'
 2025-08-19 13:48:25 [INF] Request finished HTTP/2 POST https://localhost:7148/api/User/login - 401 null text/plain; charset=utf-8 16.4744ms
+2025-08-19 14:32:14 [INF] User profile is available. Using 'C:\Users\moham\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-19 14:32:14 [WRN] No store type was specified for the decimal property 'Last_Recharge_Amount' on entity type 'DetailsDto'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-08-19 14:32:14 [WRN] No store type was specified for the decimal property 'Total_Amount' on entity type 'DetailsDto'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-08-19 14:32:15 [INF] Executed DbCommand (42ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-08-19 14:32:15 [INF] Executed DbCommand (5ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-08-19 14:32:15 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-08-19 14:32:15 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NationalId], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UpdatedAt], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-08-19 14:32:15 [INF] Now listening on: https://localhost:7148
+2025-08-19 14:32:15 [INF] Now listening on: http://localhost:5073
+2025-08-19 14:32:15 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-19 14:32:15 [INF] Hosting environment: Development
+2025-08-19 14:32:15 [INF] Content root path: N:\.net\Azka\MeterSystem\MeterSystem.API
+2025-08-19 14:32:17 [INF] Request starting HTTP/2 GET https://localhost:7148/swagger/index.html - null null
+2025-08-19 14:32:17 [INF] Request finished HTTP/2 GET https://localhost:7148/swagger/index.html - 200 null text/html;charset=utf-8 226.8209ms
+2025-08-19 14:32:17 [INF] Request starting HTTP/2 GET https://localhost:7148/_framework/aspnetcore-browser-refresh.js - null null
+2025-08-19 14:32:17 [INF] Request starting HTTP/2 GET https://localhost:7148/_vs/browserLink - null null
+2025-08-19 14:32:17 [INF] Request finished HTTP/2 GET https://localhost:7148/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 6.5141ms
+2025-08-19 14:32:17 [INF] Request finished HTTP/2 GET https://localhost:7148/_vs/browserLink - 200 null text/javascript; charset=UTF-8 36.2672ms
+2025-08-19 14:32:17 [INF] Request starting HTTP/2 GET https://localhost:7148/swagger/v1/swagger.json - null null
+2025-08-19 14:32:17 [INF] Request finished HTTP/2 GET https://localhost:7148/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 106.881ms
+2025-08-19 14:38:44 [INF] User profile is available. Using 'C:\Users\moham\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-19 14:38:44 [WRN] No store type was specified for the decimal property 'Last_Recharge_Amount' on entity type 'DetailsDto'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-08-19 14:38:44 [WRN] No store type was specified for the decimal property 'Total_Amount' on entity type 'DetailsDto'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-08-19 14:38:45 [INF] Executed DbCommand (35ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-08-19 14:38:45 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-08-19 14:38:45 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-08-19 14:38:45 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[IsDeleted], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NationalId], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UpdatedAt], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-08-19 14:38:45 [INF] Now listening on: https://localhost:7148
+2025-08-19 14:38:45 [INF] Now listening on: http://localhost:5073
+2025-08-19 14:38:45 [INF] Application started. Press Ctrl+C to shut down.
+2025-08-19 14:38:45 [INF] Hosting environment: Development
+2025-08-19 14:38:45 [INF] Content root path: N:\.net\Azka\MeterSystem\MeterSystem.API
+2025-08-19 14:38:46 [INF] Request starting HTTP/2 GET https://localhost:7148/swagger/index.html - null null
+2025-08-19 14:38:46 [INF] Request finished HTTP/2 GET https://localhost:7148/swagger/index.html - 200 null text/html;charset=utf-8 209.2984ms
+2025-08-19 14:38:46 [INF] Request starting HTTP/2 GET https://localhost:7148/_vs/browserLink - null null
+2025-08-19 14:38:46 [INF] Request starting HTTP/2 GET https://localhost:7148/_framework/aspnetcore-browser-refresh.js - null null
+2025-08-19 14:38:46 [INF] Request finished HTTP/2 GET https://localhost:7148/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 5.1616ms
+2025-08-19 14:38:46 [INF] Request finished HTTP/2 GET https://localhost:7148/_vs/browserLink - 200 null text/javascript; charset=UTF-8 43.8355ms
+2025-08-19 14:38:46 [INF] Request starting HTTP/2 GET https://localhost:7148/swagger/v1/swagger.json - null null
+2025-08-19 14:38:46 [INF] Request finished HTTP/2 GET https://localhost:7148/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 80.9733ms
