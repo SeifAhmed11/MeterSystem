@@ -6,7 +6,8 @@ namespace MeterSystem.Common.Interfaces.IServices
 {
     public interface IUserService
     {
-        Task<LoginResponse> login(LoginDto dto);
+        Task<BaseResponse<LoginResponse>> login(LoginDto dto);
+        Task<BaseResponse<string>> Register(RegisterDto dto);
         Task<IReadOnlyList<PendingUserDto>> GetUnconfirmedAdminsAsync();
         Task<BaseResponse<string>> ConfirmAdminEmailBySuperAsync(string email);
     }

@@ -8,6 +8,10 @@
         public static string Deleted= "deleted successfully.";
         public static string Loaded= "loaded successfully.";
 
+
+        public static string Pending = "Pending Admin Approval.";
+
+
         // ErrorMessages
         public static string NotFound=  "not found.";
         public static string Required = "is required.";
