@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-// Guards
 import { AuthGuard } from './guards/auth.guard';
 
 // Components
@@ -16,22 +14,19 @@ import { ContractsComponent } from './components/contracts/contracts.component';
 import { ContractFormComponent } from './components/contracts/contract-form/contract-form.component';
 import { RechargesComponent } from './components/recharges/recharges.component';
 import { RechargeFormComponent } from './components/recharges/recharge-form/recharge-form.component';
-// Removed: Consumptions, Users
 import { PendingAdminsComponent } from './components/pending-admins/pending-admins.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 const routes: Routes = [
-  // Public routes
   { path: 'login', component: LoginEnhancedComponent },
   { path: 'register', component: RegisterComponent },
   
-  // Protected routes
   { 
     path: 'dashboard', 
     component: DashboardEnhancedComponent, 
     canActivate: [AuthGuard] 
   },
   
-  // Customers routes
   { 
     path: 'customers', 
     component: CustomersComponent, 
@@ -48,7 +43,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   
-  // Meters routes
   { 
     path: 'meters', 
     component: MetersComponent, 
@@ -65,7 +59,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   
-  // Contracts routes
   { 
     path: 'contracts', 
     component: ContractsComponent, 
@@ -82,7 +75,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   
-  // Recharges routes
   { 
     path: 'recharges', 
     component: RechargesComponent, 
@@ -99,16 +91,18 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   
-  // Removed Consumptions & Users routes
-  
-  // Pending Admins routes
   { 
     path: 'pending-admins', 
     component: PendingAdminsComponent, 
     canActivate: [AuthGuard]
   },
   
-  // Default routes
+  { 
+    path: 'reports', 
+    component: ReportsComponent, 
+    canActivate: [AuthGuard]
+  },
+  
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: '/dashboard' }
 ];

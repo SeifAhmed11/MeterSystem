@@ -1,0 +1,69 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <img src="../../../assets/images/Elsewedy-EMG-logo.png" alt="Elsewedy EMG" class="logo"/>
+      <h1>نظام العدادات</h1>
+      <p>تسجيل الدخول إلى لوحة التحكم</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email">البريد الإلكتروني</label>
+        <input 
+          type="email" 
+          id="email"
+          formControlName="email"
+          placeholder="أدخل البريد الإلكتروني"
+          [ngClass]="{'error': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
+        >
+        <div class="form-error" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          <span *ngIf="loginForm.get('email')?.hasError('required')">البريد الإلكتروني مطلوب</span>
+          <span *ngIf="loginForm.get('email')?.hasError('email')">البريد الإلكتروني غير صحيح</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">كلمة المرور</label>
+        <div class="password-input">
+          <input 
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            placeholder="أدخل كلمة المرور"
+            [ngClass]="{'error': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+          >
+          <button 
+            type="button" 
+            class="password-toggle"
+            (click)="togglePassword()"
+          >
+            {{ showPassword ? 'إخفاء' : 'إظهار' }}
+          </button>
+        </div>
+        <div class="form-error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          كلمة المرور مطلوبة
+        </div>
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox-wrapper">
+          <input type="checkbox" formControlName="rememberMe">
+          تذكرني
+        </label>
+        <a href="#" class="forgot-password">نسيت كلمة المرور؟</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="!isLoading">تسجيل الدخول</span>
+        <div class="spinner" *ngIf="isLoading"></div>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>
+        ليس لديك حساب؟ 
+        <a routerLink="/register">إنشاء حساب جديد</a>
+      </p>
+    </div>
+  </div>
+</div>

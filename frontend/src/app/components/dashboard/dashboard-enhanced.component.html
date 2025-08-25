@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <img src="../../../assets/images/Elsewedy-EMG-logo.png" alt="Elsewedy EMG" class="logo"/>
+    <div class="header-text">
+      <h1>لوحة التحكم</h1>
+      <p>عرض مختصر لأهم المؤشرات</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>العملاء</h3>
+      <div class="stat-value">{{ stats.customers || '0' }}</div>
+    </div>
+    <div class="stat-card">
+      <h3>العدادات</h3>
+      <div class="stat-value">{{ stats.meters || '0' }}</div>
+    </div>
+    <div class="stat-card">
+      <h3>العقود</h3>
+      <div class="stat-value">{{ stats.contracts || '0' }}</div>
+    </div>
+    <div class="stat-card">
+      <h3>الشحنات</h3>
+      <div class="stat-value">{{ stats.recharges || '0' }}</div>
+    </div>
+    <div class="stat-card">
+      <h3>الاستهلاك</h3>
+      <div class="stat-value">{{ stats.consumptions || '0' }}</div>
+    </div>
+    <div class="stat-card">
+      <h3>المستخدمين</h3>
+      <div class="stat-value">{{ stats.users || '0' }}</div>
+    </div>
+    <div class="stat-card">
+      <h3>المشرفين المعلقين</h3>
+      <div class="stat-value">{{ stats.pendingAdmins || '0' }}</div>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <h2>الوصول السريع</h2>
+    <div class="actions-grid">
+      <button class="btn btn-primary" routerLink="/customers">العملاء</button>
+      <button class="btn btn-primary" routerLink="/meters">العدادات</button>
+      <button class="btn btn-primary" routerLink="/contracts">العقود</button>
+      <button class="btn btn-primary" routerLink="/recharges">الشحنات</button>
+      <button class="btn btn-outline" routerLink="/pending-admins">المشرفين المعلقين</button>
+      <button class="btn btn-outline" routerLink="/reports">التقارير</button>
+    </div>
+  </div>
+</div>

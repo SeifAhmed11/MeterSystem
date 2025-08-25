@@ -1,0 +1,48 @@
+<div class="reports-container">
+  <div class="reports-header">
+    <h1>التقارير</h1>
+    <p>عرض وتصدير التقارير المختلفة للنظام</p>
+  </div>
+
+  <div class="reports-controls">
+    <div class="report-selector">
+      <label for="reportType">نوع التقرير:</label>
+      <select id="reportType" [(ngModel)]="selectedReport" (ngModelChange)="onReportChange($event)">
+        <option value="">اختر نوع التقرير</option>
+        <option *ngFor="let report of reports" [value]="report.id">
+          {{ report.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="search-controls">
+      <div class="search-box">
+        
+        <button class="btn btn-primary" (click)="onSearch()" [disabled]="!selectedReport">بحث</button>
+        <button class="btn btn-outline" (click)="clearSearch()" [disabled]="!selectedReport">مسح</button>
+      </div>
+    </div>
+
+    <div class="export-controls">
+      <button 
+        class="btn btn-success" 
+        (click)="exportToCSV()" 
+        [disabled]="reportData.length === 0"
+      >
+        تصدير CSV
+      </button>
+    </div>
+  </div>
+
+  
+  <div class="endpoints-info">
+    <h3>الـ Endpoints المتاحة:</h3>
+    <div class="endpoints-grid">
+      <div class="endpoint-card" *ngFor="let report of reports">
+        <h4>{{ report.name }}</h4>
+        <p><strong>Endpoint:</strong> {{ report.endpoint }}</p>
+        <p><strong>العمليات:</strong> GET, POST, PUT, DELETE</p>
+      </div>
+    </div>
+  </div>
+</div>

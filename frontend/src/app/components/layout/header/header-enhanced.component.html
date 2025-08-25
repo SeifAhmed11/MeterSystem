@@ -1,0 +1,20 @@
+<div class="app-header">
+  <div class="brand">
+    <img class="logo" src="../../../assets/images/Elsewedy-EMG-logo.png" alt="Elsewedy EMG"/>
+  </div>
+
+  <div class="header-right">
+    <div class="user-profile">
+      <div class="user-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{currentUser?.name || currentUser?.userName || 'مستخدم'}}</span>
+        <span class="user-email">{{currentUser?.email || 'user@example.com'}}</span>
+      </div>
+      <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </div>
+  </div>
+</div>

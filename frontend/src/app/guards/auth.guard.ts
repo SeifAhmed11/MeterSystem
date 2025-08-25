@@ -18,12 +18,10 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
-    // التحقق من تسجيل دخول المستخدم
     if (this.authService.isLoggedIn()) {
       return true;
     }
 
-    // إعادة توجيه إلى صفحة تسجيل الدخول مع حفظ المسار المطلوب
     return this.router.createUrlTree(['/login'], {
       queryParams: { returnUrl: state.url }
     });
